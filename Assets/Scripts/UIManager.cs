@@ -7,6 +7,7 @@ public class UIManager : MonoBehaviour
 {
     public Image[] hitPoints;
     public Text moneyTxt;
+    public GameObject gameOverPanel;
 
     // Start is called before the first frame update
     void Start()

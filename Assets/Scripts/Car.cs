@@ -36,7 +36,7 @@ public class Car : MonoBehaviour
         carMove.z = speed;
         controller.Move(carMove * Time.deltaTime);
     }
-
+    
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Money"))
@@ -57,41 +57,44 @@ public class Car : MonoBehaviour
             if (currentLife <= 0)
             {
                 speed = 0;
+                uiManager.gameOverPanel.SetActive(true);
+                Invoke("GoBackToMenu", 3f); //upon losing all lives, display GameOverPanel for 3 seconds before returning to menu
             }
             else
             {
                 StartCoroutine(Collided(collisionTime));
             }
         }
-
-        IEnumerator Collided (float time)
-        {
-            collided = true;
-            float timer = 0;
-            float currentCollision = 1f;
-            float lastCollision = 0;
-            float collisionPeriod = 0.1f;
-            bool enabled = false;
-
-            yield return new WaitForSeconds(1f);
-            speed = minSpeed;
-            while (timer > time && collided)
-            {
-                model.SetActive(enabled);
-                yield return null;
-                timer += Time.deltaTime;
-                lastCollision += Time.deltaTime;
-                if (collisionPeriod > lastCollision)
-                {
-                    lastCollision = 0;
-                    currentCollision = 1f - currentCollision;
-                    enabled = !enabled;
-                }
-            }
-            model.SetActive(true);
-            collided = false;
-        }
     }
+
+    IEnumerator Collided (float time)
+    {
+        collided = true;
+        float timer = 0;
+        float currentCollision = 1f;
+        float lastCollision = 0;
+        float collisionPeriod = 0.1f;
+        bool enabled = false;
+
+        yield return new WaitForSeconds(1f);
+        speed = minSpeed;
+        while (timer > time && collided)
+        {
+            model.SetActive(enabled);
+            yield return null;
+            timer += Time.deltaTime;
+            lastCollision += Time.deltaTime;
+            if (collisionPeriod > lastCollision)
+            {
+                lastCollision = 0;
+                currentCollision = 1f - currentCollision;
+                enabled = !enabled;
+            }
+        }
+        model.SetActive(true);
+        collided = false;
+    }
+
     public void IncreaseSpeed()
     {
         speed *= 1.15f;
@@ -99,5 +102,10 @@ public class Car : MonoBehaviour
         {
             speed = maxSpeed;
         }
+    }
+
+    public void GoBackToMenu()
+    {
+        GameManager.gameManager.GameEnd();
     }
 }
