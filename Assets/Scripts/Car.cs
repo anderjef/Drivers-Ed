@@ -7,10 +7,22 @@ public class Car : MonoBehaviour
     private CharacterController controller;
     private Vector3 carMove;
     public float speed;
+    public int maxLife = 3;
+    public float minSpeed = 10f;
+    public float maxSpeed = 30f;
+    public float collisionTime;
+    public GameObject model;
+    private int currentLife;
+    private bool collided = false;
+    static int collidedValue;
+
     // Start is called before the first frame update
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        currentLife = maxLife;
+        speed = minSpeed;
+        collidedValue = Shader.PropertyToID("_CollidedValue");
     }
 
     // Update is called once per frame
@@ -20,5 +32,64 @@ public class Car : MonoBehaviour
         carMove.x = Input.GetAxisRaw("Horizontal") * speed;
         carMove.z = speed;
         controller.Move(carMove * Time.deltaTime);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (collided)
+        {
+            return;
+        }
+        if (other.CompareTag("Obstacle"))
+        {
+            currentLife--;
+            speed = 0;
+            if (currentLife <= 0)
+            {
+                speed = 0;
+            }
+            else
+            {
+                StartCoroutine(Collided(collisionTime));
+            }
+        }
+
+        IEnumerator Collided (float time)
+        {
+            collided = true;
+            float timer = 0;
+            float currentCollision = 1f;
+            float lastCollision = 0;
+            float collisionPeriod = 0.1f;
+            bool enabled = false;
+
+            yield return new WaitForSeconds(1f);
+            speed = minSpeed;
+            while (timer > time && collided)
+            {
+                model.SetActive(enabled);
+                yield return null;
+                timer += Time.deltaTime;
+                lastCollision += Time.deltaTime;
+                if (collisionPeriod > lastCollision)
+                {
+                    lastCollision = 0;
+                    currentCollision = 1f - currentCollision;
+                    enabled = !enabled;
+                }
+            }
+            model.SetActive(true);
+            collided = false;
+        }
+
+        //FIXME: error with this function being public and it's also never called
+        /*public void IncreaseSpeed()
+        {
+            speed *= 1.15f;
+            if (speed >= maxSpeed)
+            {
+                speed = maxSpeed;
+            }
+        }*/
     }
 }
