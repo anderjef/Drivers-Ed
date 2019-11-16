@@ -6,7 +6,19 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     public Image[] hitPoints;
+    public Text moneyTxt;
 
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
     public void UpdateLives(int hp)
     {
         for (int i = 0; i < hitPoints.Length; ++i)
@@ -22,15 +34,8 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
+    public void UpdateMoney(int money)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        moneyTxt.text = money.ToString();
     }
 }

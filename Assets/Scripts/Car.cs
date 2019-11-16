@@ -16,6 +16,7 @@ public class Car : MonoBehaviour
     private bool collided = false;
     static int collidedValue;
     private UIManager uiManager;
+    private int money;
 
     // Start is called before the first frame update
     void Start()
@@ -38,6 +39,12 @@ public class Car : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.CompareTag("Money"))
+        {
+            money++;
+            uiManager.UpdateMoney(money);
+            other.transform.parent.gameObject.SetActive(false);
+        }
         if (collided)
         {
             return;
