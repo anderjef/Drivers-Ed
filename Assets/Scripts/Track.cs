@@ -38,4 +38,13 @@ public class Track : MonoBehaviour
             nObstacles[i].SetActive(true);
         }
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Car"))
+        {
+            other.GetComponent<Car>().IncreaseSpeed();
+            transform.position = new Vector3(0, 0, transform.position.z + 0 * 2); //FIXME: replace the zero (in transform.position.z + 0 * 2) with Z position of track 2
+        }
+    }
 }

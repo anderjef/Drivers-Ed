@@ -15,6 +15,7 @@ public class Car : MonoBehaviour
     private int currentLife;
     private bool collided = false;
     static int collidedValue;
+    private UIManager uiManager;
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +24,7 @@ public class Car : MonoBehaviour
         currentLife = maxLife;
         speed = minSpeed;
         collidedValue = Shader.PropertyToID("_CollidedValue");
+        uiManager = FindObjectOfType<UIManager>();
     }
 
     // Update is called once per frame
@@ -43,6 +45,7 @@ public class Car : MonoBehaviour
         if (other.CompareTag("Obstacle"))
         {
             currentLife--;
+            uiManager.UpdateLives(currentLife);
             speed = 0;
             if (currentLife <= 0)
             {
@@ -81,15 +84,13 @@ public class Car : MonoBehaviour
             model.SetActive(true);
             collided = false;
         }
-
-        //FIXME: error with this function being public and it's also never called
-        /*public void IncreaseSpeed()
+    }
+    public void IncreaseSpeed()
+    {
+        speed *= 1.15f;
+        if (speed >= maxSpeed)
         {
-            speed *= 1.15f;
-            if (speed >= maxSpeed)
-            {
-                speed = maxSpeed;
-            }
-        }*/
+            speed = maxSpeed;
+        }
     }
 }
