@@ -53,7 +53,7 @@ public class Track : MonoBehaviour
             //FIXME: in part 7
             //if (nObstacles[i].GetComponent<RandomLane>() != null)
             //{
-            //nObstacles[i].GetComponent<RandomLane>().LaneLayout();
+                //nObstacles[i].GetComponent<RandomLane>().LaneLayout();
             //}
         }
     }

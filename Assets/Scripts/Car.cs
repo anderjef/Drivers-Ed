@@ -5,7 +5,6 @@ using UnityEngine;
 public class Car : MonoBehaviour
 {
     private CharacterController controller;
-    private Vector3 carMove;
     public float speed;
     public int maxLife = 3;
     public float minSpeed = 10f;
@@ -17,6 +16,7 @@ public class Car : MonoBehaviour
     static int collidedValue;
     private UIManager uiManager;
     private int money;
+    private double x = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -31,12 +31,15 @@ public class Car : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        carMove = Vector3.zero;
-        carMove.x = Input.GetAxisRaw("Horizontal") * speed;
-        carMove.z = speed;
-        controller.Move(carMove * Time.deltaTime);
+        Vector3 carMove = new Vector3(Input.GetAxisRaw("Horizontal") * speed * Time.deltaTime, 0, speed * Time.deltaTime); //z is forward
+        if ((x < -5 && carMove.x < 0) || (x > 5 && carMove.x > 0)) //setting left and right boundaries
+        {
+            carMove.x = 0;
+        }
+        x += carMove.x;
+        controller.Move(carMove);
     }
-    
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Money"))
@@ -98,7 +101,7 @@ public class Car : MonoBehaviour
     public void IncreaseSpeed()
     {
         speed *= 1.15f;
-        if (speed >= maxSpeed)
+        if (speed > maxSpeed)
         {
             speed = maxSpeed;
         }
