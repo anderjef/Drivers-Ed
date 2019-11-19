@@ -49,7 +49,7 @@ public class Track : MonoBehaviour
         {
             float pZMin = i * (96.147f / nObstacles.Count) + (80f / nObstacles.Count); //80f is the Z position of track 2
             float pZMax = i * (96.147f / nObstacles.Count) + (80f / nObstacles.Count); //80f is the Z position of track 2
-            nObstacles[i].transform.localPosition = new Vector3(0, 0, Random.Range(pZMin, pZMax));
+            nObstacles[i].transform.localPosition = new Vector3(Random.Range(-5, 5), 0, Random.Range(pZMin, pZMax));
             nObstacles[i].SetActive(true);
             //FIXME: in part 7
             //if (nObstacles[i].GetComponent<RandomLane>() != null)
