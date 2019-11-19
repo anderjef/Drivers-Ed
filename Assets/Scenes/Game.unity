@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.4465782, g: 0.49641252, b: 0.5748167, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -648,6 +648,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 884213709}
+  - component: {fileID: 884213710}
   m_Layer: 0
   m_Name: Track 1
   m_TagString: Untagged
@@ -670,6 +671,27 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &884213710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 884213708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e816e26eb88328d46958d6711fa8f312, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstacles:
+  - {fileID: 6032863465905308585, guid: 710cd4291415c2447a88968470730c17, type: 3}
+  - {fileID: 1146599895459440402, guid: 615661137d9fd904093747bc3285a523, type: 3}
+  - {fileID: 7145293842543558321, guid: b44d12228c53c274bab0ec36053f11ca, type: 3}
+  numObstacles: {x: 10, y: 15}
+  money: {fileID: 0}
+  amountOfMoney: {x: 0, y: 0}
+  newMoney: []
+  nObstacles: []
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -1239,6 +1261,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 9ea2ea91c8ce9fa41abab502c21dce33, type: 3}
       propertyPath: m_Name
       value: Car1
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 9ea2ea91c8ce9fa41abab502c21dce33, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 9ea2ea91c8ce9fa41abab502c21dce33, type: 3}
       propertyPath: m_LocalPosition.x
