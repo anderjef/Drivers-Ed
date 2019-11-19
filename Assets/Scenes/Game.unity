@@ -1505,6 +1505,7 @@ GameObject:
   - component: {fileID: 535585236}
   - component: {fileID: 535585235}
   - component: {fileID: 535585234}
+  - component: {fileID: 535585237}
   m_Layer: 0
   m_Name: Car
   m_TagString: Car
@@ -1541,7 +1542,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 15
-  maxLife: 3
   minSpeed: 10
   maxSpeed: 30
   collisionTime: 0
@@ -1575,8 +1575,22 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 3, y: 2.2, z: 7}
+  m_Size: {x: 3, y: 4, z: 7}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!64 &535585237
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 535585232}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 4300020, guid: 8b9c0f92924b64445b135036cc903390, type: 3}
 --- !u!1 &585595661
 GameObject:
   m_ObjectHideFlags: 0
@@ -1686,8 +1700,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 15, y: 10, z: 1}
-  m_Center: {x: 0, y: 0, z: 80}
+  m_Size: {x: 15, y: 10, z: 5}
+  m_Center: {x: 0, y: 0, z: 90}
 --- !u!114 &662331480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1975,8 +1989,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 15, y: 10, z: 1}
-  m_Center: {x: 0, y: 0, z: 80}
+  m_Size: {x: 15, y: 10, z: 5}
+  m_Center: {x: 0, y: 0, z: 90}
 --- !u!1001 &890700677
 PrefabInstance:
   m_ObjectHideFlags: 0

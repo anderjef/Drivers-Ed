@@ -104,6 +104,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6400000, guid: c7caa900763c8f245bef8d97357a5ad4, type: 3}
       propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6400000, guid: c7caa900763c8f245bef8d97357a5ad4, type: 3}
+      propertyPath: m_Convex
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

@@ -26,7 +26,7 @@ public class Track : MonoBehaviour
             nObstacles.Add(Instantiate(obstacles[Random.Range(0, obstacles.Length)], transform));
             nObstacles[i].SetActive(false);
         }
-    
+
         for (int i = 0; i < newNumMoney; ++i)
         {
             newMoney.Add(Instantiate(money, transform));
@@ -47,8 +47,8 @@ public class Track : MonoBehaviour
     {
         for (int i = 1; i < nObstacles.Count + 1; ++i)
         {
-            float pZMin = i * (96.147f / nObstacles.Count) + (80f / nObstacles.Count); //80f is the Z position of track 2
-            float pZMax = i * (96.147f / nObstacles.Count) + (80f / nObstacles.Count); //80f is the Z position of track 2
+            float pZMin = (i + 1) * (80f / nObstacles.Count); //80f is the Z position of track 2
+            float pZMax = (i + 1) * (80f / nObstacles.Count); //80f is the Z position of track 2
             nObstacles[i].transform.localPosition = new Vector3(Random.Range(-5, 5), 0, Random.Range(pZMin, pZMax));
             nObstacles[i].SetActive(true);
             //FIXME: in part 7
@@ -82,6 +82,8 @@ public class Track : MonoBehaviour
         {
             other.GetComponent<Car>().IncreaseSpeed();
             transform.position = new Vector3(0, 0, transform.position.z + 80 * 2); //80 is the Z position of track 2
+            LayoutObstacles();
+            LayoutMoney();
         }
     }
 }

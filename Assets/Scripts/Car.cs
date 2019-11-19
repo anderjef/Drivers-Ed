@@ -6,12 +6,11 @@ public class Car : MonoBehaviour
 {
     private CharacterController controller;
     public float speed;
-    public int maxLife = 3;
     public float minSpeed = 10f;
     public float maxSpeed = 30f;
     public float collisionTime;
     public GameObject model;
-    private int currentLife;
+    private int currentLife = 3;
     private bool collided = false;
     static int collidedValue;
     private UIManager uiManager;
@@ -22,7 +21,6 @@ public class Car : MonoBehaviour
     void Start()
     {
         controller = GetComponent<CharacterController>();
-        currentLife = maxLife;
         speed = minSpeed;
         collidedValue = Shader.PropertyToID("_CollidedValue");
         uiManager = FindObjectOfType<UIManager>();
@@ -70,10 +68,10 @@ public class Car : MonoBehaviour
         }
     }
 
-    IEnumerator Collided (float time)
+    IEnumerator Collided (double time)
     {
         collided = true;
-        float timer = 0;
+        double timer = 0;
         float currentCollision = 1f;
         float lastCollision = 0;
         float collisionPeriod = 0.1f;
@@ -100,7 +98,7 @@ public class Car : MonoBehaviour
 
     public void IncreaseSpeed()
     {
-        speed *= 1.15f;
+        speed += 1.15f;
         if (speed > maxSpeed)
         {
             speed = maxSpeed;
