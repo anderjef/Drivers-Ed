@@ -6,11 +6,14 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager gameManager;
+    private UIMenuManager uiMenuManager;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        uiMenuManager = FindObjectOfType<UIMenuManager>();
+        uiMenuManager.mainMenuPanel.SetActive(true);
+        uiMenuManager.optionsPanel.SetActive(false);
     }
 
     // Update is called once per frame
@@ -38,8 +41,32 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("Game");
     }
 
+    public void OpenOptions()
+    {
+        //SceneManager.LoadScene("Options"); //was causing errors
+        uiMenuManager.optionsPanel.SetActive(true);
+        uiMenuManager.mainMenuPanel.SetActive(false);
+    }
+
+    public void OpenMenu()
+    {
+        //SceneManager.LoadScene("Menu"); //was causing errors
+        uiMenuManager.mainMenuPanel.SetActive(true);
+        uiMenuManager.optionsPanel.SetActive(false);
+    }
+
+    public void TutorialStart()
+    {
+        SceneManager.LoadScene("Tutorial"); //FIXME: implement (same as Game scene but lives don't matter and there are instructions?)
+    }
+
     public void GameEnd()
     {
         SceneManager.LoadScene("Menu");
+    }
+
+    public void Exit()
+    {
+        Application.Quit();
     }
 }
