@@ -44,7 +44,8 @@ public class Car : MonoBehaviour
         {
             money++;
             uiManager.UpdateMoney(money);
-            other.transform.parent.gameObject.SetActive(false);
+            //other.transform.parent.gameObject.SetActive(false);
+            other.transform.gameObject.SetActive(false);
         }
         if (collided)
         {
