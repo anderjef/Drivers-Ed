@@ -18,15 +18,16 @@ public class Track : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        int newNumMoney = (int)Random.Range(amountOfMoney.x, amountOfMoney.y);
         int newNumObstacles = (int)Random.Range(numObstacles.x, numObstacles.y);
+
         for (int i = 0; i < newNumObstacles; ++i)
         {
             nObstacles.Add(Instantiate(obstacles[Random.Range(0, obstacles.Length)], transform));
             nObstacles[i].SetActive(false);
         }
-        
-        int newNumMoney = (int)Random.Range(amountOfMoney.x, amountOfMoney.y);
-        for (int i = 0; i < newNumObstacles; ++i)
+    
+        for (int i = 0; i < newNumMoney; ++i)
         {
             newMoney.Add(Instantiate(money, transform));
             newMoney[i].SetActive(false);
@@ -46,8 +47,8 @@ public class Track : MonoBehaviour
     {
         for (int i = 1; i < nObstacles.Count + 1; ++i)
         {
-            float pZMin = i * (0f / nObstacles.Count); //FIXME: replace the zero (in 0f) with Z position of track 2
-            float pZMax = i * (0f / nObstacles.Count) + 1; //FIXME: replace the zero (in 0f) with Z position of track 2
+            float pZMin = i * (96.147f / nObstacles.Count) + (96.147f / nObstacles.Count); //FIXME: replace the zero (in 0f) with Z position of track 2
+            float pZMax = i * (96.147f / nObstacles.Count) + (96.147f / nObstacles.Count); //FIXME: replace the zero (in 0f) with Z position of track 2
             nObstacles[i].transform.localPosition = new Vector3(0, 0, Random.Range(pZMin, pZMax));
             nObstacles[i].SetActive(true);
             //FIXME: in part 7
@@ -80,7 +81,7 @@ public class Track : MonoBehaviour
         if (other.CompareTag("Car"))
         {
             other.GetComponent<Car>().IncreaseSpeed();
-            transform.position = new Vector3(0, 0, transform.position.z + 0 * 2); //FIXME: replace the zero (in transform.position.z + 0 * 2) with Z position of track 2
+            transform.position = new Vector3(0, 0, transform.position.z + 96 * 2); //FIXME: replace the zero (in transform.position.z + 0 * 2) with Z position of track 2
         }
     }
 }
