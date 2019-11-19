@@ -81,13 +81,13 @@ public class Car : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
         speed = minSpeed;
-        while (timer > time && collided)
+        while (timer < time && collided)
         {
             model.SetActive(enabled);
             yield return null;
             timer += Time.deltaTime;
             lastCollision += Time.deltaTime;
-            if (collisionPeriod > lastCollision)
+            if (collisionPeriod < lastCollision)
             {
                 lastCollision = 0;
                 currentCollision = 1f - currentCollision;

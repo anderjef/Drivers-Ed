@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5359893452427679301}
   m_Layer: 0
   m_Name: Money Holder
-  m_TagString: Untagged
+  m_TagString: Money
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 8999241815865363244}
   m_Layer: 0
   m_Name: money
-  m_TagString: Untagged
+  m_TagString: Money
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

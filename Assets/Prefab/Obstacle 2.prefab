@@ -42,6 +42,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Metal Barrel Green 1
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 6e24a1918bf3a9c4a817810445877795, type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 6e24a1918bf3a9c4a817810445877795, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

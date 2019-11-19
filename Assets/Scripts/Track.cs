@@ -47,8 +47,8 @@ public class Track : MonoBehaviour
     {
         for (int i = 1; i < nObstacles.Count + 1; ++i)
         {
-            float pZMin = i * (96.147f / nObstacles.Count) + (96.147f / nObstacles.Count); //FIXME: replace the zero (in 0f) with Z position of track 2
-            float pZMax = i * (96.147f / nObstacles.Count) + (96.147f / nObstacles.Count); //FIXME: replace the zero (in 0f) with Z position of track 2
+            float pZMin = i * (96.147f / nObstacles.Count) + (80f / nObstacles.Count); //80f is the Z position of track 2
+            float pZMax = i * (96.147f / nObstacles.Count) + (80f / nObstacles.Count); //80f is the Z position of track 2
             nObstacles[i].transform.localPosition = new Vector3(0, 0, Random.Range(pZMin, pZMax));
             nObstacles[i].SetActive(true);
             //FIXME: in part 7
@@ -81,7 +81,7 @@ public class Track : MonoBehaviour
         if (other.CompareTag("Car"))
         {
             other.GetComponent<Car>().IncreaseSpeed();
-            transform.position = new Vector3(0, 0, transform.position.z + 96 * 2); //FIXME: replace the zero (in transform.position.z + 0 * 2) with Z position of track 2
+            transform.position = new Vector3(0, 0, transform.position.z + 80 * 2); //80 is the Z position of track 2
         }
     }
 }
