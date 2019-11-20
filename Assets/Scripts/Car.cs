@@ -7,7 +7,7 @@ public class Car : MonoBehaviour
     private CharacterController controller;
     public float speed, minSpeed = 10f, maxSpeed = 30f; //can be modified within Unity
     public float collisionTime;
-    public GameObject model, CoinReminder, CollideReminder, ControlReminder;
+    public GameObject model, CoinReminder, CollideReminder, ControlReminder, SpeedReminder;
     private int currentLife = 3;
     private bool collided = false, firstcoin = true, showcont = true;
     static int collidedValue;
@@ -25,6 +25,7 @@ public class Car : MonoBehaviour
         uiManager = FindObjectOfType<UIManager>();
         CoinReminder.SetActive(true);
         ControlReminder.SetActive(true);
+        SpeedReminder.SetActive(true);
     }
 
     // Update is called once per frame
@@ -34,6 +35,7 @@ public class Car : MonoBehaviour
         if((controls > 5.0)&&(showcont))
         {
             ControlReminder.SetActive(false);
+            SpeedReminder.SetActive(false);
             showcont = false;
         }
         Vector3 carMove = new Vector3(Input.GetAxisRaw("Horizontal") * speed * Time.deltaTime, 0, speed * Time.deltaTime); //z is forward
