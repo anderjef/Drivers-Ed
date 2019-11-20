@@ -7,11 +7,12 @@ public class Car : MonoBehaviour
     private CharacterController controller;
     public float speed, minSpeed = 10f, maxSpeed = 30f; //can be modified within Unity
     public float collisionTime;
-    public GameObject model, CoinReminder, CollideReminder;
+    public GameObject model, CoinReminder, CollideReminder, ControlReminder;
     private int currentLife = 3;
-    private bool collided = false, firstcoin = true;
+    private bool collided = false, firstcoin = true, showcont = true;
     static int collidedValue;
     private UIManager uiManager;
+    private double controls = 0.0;
     private int money;
     private double x = 0; //used to know where the car is currently (laterally) so as to prohibit it from running out of bounds
 
@@ -23,11 +24,18 @@ public class Car : MonoBehaviour
         collidedValue = Shader.PropertyToID("_CollidedValue");
         uiManager = FindObjectOfType<UIManager>();
         CoinReminder.SetActive(true);
+        ControlReminder.SetActive(true);
     }
 
     // Update is called once per frame
     void Update()
     {
+        controls += Time.deltaTime;
+        if((controls > 5.0)&&(showcont))
+        {
+            ControlReminder.SetActive(false);
+            showcont = false;
+        }
         Vector3 carMove = new Vector3(Input.GetAxisRaw("Horizontal") * speed * Time.deltaTime, 0, speed * Time.deltaTime); //z is forward
         if ((x < -5 && carMove.x < 0) || (x > 5 && carMove.x > 0)) //setting left and right boundaries
         {
