@@ -7,13 +7,14 @@ public class Car : MonoBehaviour
     private CharacterController controller;
     public float speed, minSpeed = 10f, maxSpeed = 30f; //can be modified within Unity
     public float collisionTime;
-    public GameObject model;
-    private int currentLife = 3;
-    private bool collided = false;
+    public GameObject model, CoinReminder, CollideReminder, ControlReminder, SpeedReminder;
+    private int currentLife = 3; //number of lives
+    private bool collided = false, firstcoin = true, showcont = true;
     static int collidedValue;
     private UIManager uiManager;
     private int money;
     private double x = 0; //used to know where the car is currently (laterally) so as to prohibit it from running out of bounds
+    private double controls = 0.0;
 
     // Start is called before the first frame update
     void Start()
@@ -22,15 +23,39 @@ public class Car : MonoBehaviour
         speed = minSpeed; //car starts off slow
         collidedValue = Shader.PropertyToID("_CollidedValue");
         uiManager = FindObjectOfType<UIManager>();
+        CoinReminder.SetActive(true);
+        ControlReminder.SetActive(true);
+        SpeedReminder.SetActive(true);
     }
 
     // Update is called once per frame
     void Update()
     {
+        controls += Time.deltaTime;
+        if ((controls > 5.0) && (showcont))
+        {
+            ControlReminder.SetActive(false);
+            SpeedReminder.SetActive(false);
+            showcont = false;
+        }
         Vector3 carMove = new Vector3(Input.GetAxisRaw("Horizontal") * speed * Time.deltaTime, 0, speed * Time.deltaTime); //z is forward
         if ((x < -5 && carMove.x < 0) || (x > 5 && carMove.x > 0)) //setting left and right boundaries
         {
             carMove.x = 0;
+        }
+        if (Input.GetButton("Fire1")) //ctrl
+        {
+            if (speed >= minSpeed)
+            {
+                speed = speed - 1f;
+            }
+        }
+        if (Input.GetButton("Fire2")) //Alt
+        {
+            if(speed <= maxSpeed)
+            {
+                speed = speed + 1f;
+            }
         }
         x += carMove.x;
         controller.Move(carMove);

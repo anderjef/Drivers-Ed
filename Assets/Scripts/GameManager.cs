@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
 
     public void TutorialStart()
     {
-        SceneManager.LoadScene("Tutorial"); //FIXME: implement (same as Game scene but lives don't matter and there are instructions?)
+        SceneManager.LoadSceneAsync("Tutorial", LoadSceneMode.Single);
     }
 
     public void GameEnd()

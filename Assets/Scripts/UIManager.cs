@@ -7,14 +7,23 @@ public class UIManager : MonoBehaviour
 {
     public Image[] hitPoints; //three hearts are displayed in the UI representing player lives
     public Text moneyTxt;
-    public GameObject gameOverPanel, pausePanel; //one overlay for when the player dies, and one for when the game is paused
-    public bool isPaused;
+    public GameObject gameOverPanel, pausePanel, startPanel; //one overlay for when the player dies, and one for when the game is paused
+    private Car car;
+    public Slider startDifficulty, difficulty; //used to modify the car's speed (and hence the game's difficulty)
 
     // Start is called before the first frame update
     void Start()
     {
+        if (this.name == "Canvas")
+        {
+
+        }
+        Debug.Log(this.name);
+        Time.timeScale = 0;
         pausePanel.SetActive(false);
-	    isPaused = false;
+        gameOverPanel.SetActive(false);
+        startPanel.SetActive(true);
+        car = FindObjectOfType<Car>();
     }
 
     // Update is called once per frame
@@ -22,6 +31,21 @@ public class UIManager : MonoBehaviour
     {
 
     }
+
+    public void updateDifficulty()
+    {
+        car.minSpeed = difficulty.value * 5 + 10;
+        if (car.speed < car.minSpeed)
+        {
+            car.speed = car.minSpeed;
+        }
+    }
+
+    public void startUpdateDifficulty()
+    {
+        car.minSpeed = startDifficulty.value * 5 + 10;
+    }
+
     public void UpdateLives(int hp)
     {
         for (int i = 0; i < hitPoints.Length; ++i)
@@ -44,16 +68,26 @@ public class UIManager : MonoBehaviour
 
     public void OpenPause()
     {
+        difficulty.value = (car.minSpeed - 10) / 5;
         pausePanel.SetActive(true); //show the pause panel when the pause button is pressed
 	    Time.timeScale = 0;
-	    isPaused = true;
-        //FIXME: save speed
     }
 
     public void ClosePause()
     {
         pausePanel.SetActive(false); //hide the pause panel when the resume button is pressed
 	    Time.timeScale = 1;
-	    isPaused = false;
+    }
+
+    public void CloseStart()
+    {
+        car.speed = car.minSpeed;
+        startPanel.SetActive(false); //hide the start panel when the start button is pressed
+        Time.timeScale = 1;
+    }
+
+    public void QuitToMenu()
+    {
+        GameManager.gameManager.GameEnd(); //quit button returns to menu
     }
 }
