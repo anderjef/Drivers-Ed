@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,7 +14,7 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         pausePanel.SetActive(false);
-	    isPaused = false;
+        isPaused = false;
     }
 
     // Update is called once per frame
@@ -45,15 +45,15 @@ public class UIManager : MonoBehaviour
     public void OpenPause()
     {
         pausePanel.SetActive(true); //show the pause panel when the pause button is pressed
-	    Time.timeScale = 0;
-	    isPaused = true;
+        Time.timeScale = 0;
+        isPaused = true;
         //FIXME: save speed
     }
 
     public void ClosePause()
     {
         pausePanel.SetActive(false); //hide the pause panel when the resume button is pressed
-	    Time.timeScale = 1;
-	    isPaused = false;
+        Time.timeScale = 1;
+        isPaused = false;
     }
 }
