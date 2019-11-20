@@ -28,17 +28,16 @@ public class GameManager : MonoBehaviour
         {
             gameManager = this;
         }
-        else if (gameManager != this)
-        {
-            Destroy(gameObject);
-        }
-
-        DontDestroyOnLoad(gameObject);
+        //else if (gameManager != this)
+        //{
+            //Destroy(gameObject); //was causing issues with reverting to a previous scene; the problem is now that every scene change keeps a GameManager object around
+        //}
+        DontDestroyOnLoad(gameManager);
     }
 
     public void GameStart()
     {
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadSceneAsync("Game", LoadSceneMode.Single);
     }
 
     public void OpenOptions()
@@ -62,7 +61,7 @@ public class GameManager : MonoBehaviour
 
     public void GameEnd()
     {
-        SceneManager.LoadScene("Menu");
+        SceneManager.LoadSceneAsync("Menu", LoadSceneMode.Single);
     }
 
     public void Exit()
