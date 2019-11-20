@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.4465782, g: 0.49641252, b: 0.5748167, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -258,6 +258,7 @@ MonoBehaviour:
   moneyTxt: {fileID: 0}
   gameOverPanel: {fileID: 0}
   pausePanel: {fileID: 141464327}
+  isPaused: 0
 --- !u!114 &168030073
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -874,6 +875,7 @@ MonoBehaviour:
   moneyTxt: {fileID: 2079601313}
   gameOverPanel: {fileID: 1280845750}
   pausePanel: {fileID: 141464327}
+  isPaused: 0
 --- !u!4 &435507194 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1067890862662688714, guid: 9bc31622edd3e5e4db3f6164c7a73ef9,
@@ -1403,6 +1405,7 @@ MonoBehaviour:
   moneyTxt: {fileID: 0}
   gameOverPanel: {fileID: 0}
   pausePanel: {fileID: 141464327}
+  isPaused: 0
 --- !u!114 &529171395
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -7,9 +7,8 @@ public class UIManager : MonoBehaviour
 {
     public Image[] hitPoints; //three hearts are displayed in the UI representing player lives
     public Text moneyTxt;
-    public GameObject gameOverPanel, pausePanel; //one overlay for when the player dies, and one for when the game is paused
+    public GameObject gameOverPanel, pausePanel, MovementInstruction, ObjectiveInstruction; //one overlay for when the player dies, and one for when the game is paused
     public bool isPaused;
-
     // Start is called before the first frame update
     void Start()
     {

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Track : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class Track : MonoBehaviour
     public Vector2 numObstacles; //can be modified within Unity
     public GameObject money; //there is only one money prefab
     public Vector2 amountOfMoney; //can be modified within Unity
+    public int tutorialNum = 0;
+    private UIManager uiManager;
 
     [HideInInspector]
     public List<GameObject> newMoney;
@@ -18,6 +21,7 @@ public class Track : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        uiManager = FindObjectOfType<UIManager>();
         int newNumMoney = (int)Random.Range(amountOfMoney.x, amountOfMoney.y);
         int newNumObstacles = (int)Random.Range(numObstacles.x, numObstacles.y);
 
@@ -71,6 +75,22 @@ public class Track : MonoBehaviour
     {
         if (other.CompareTag("Car")) //there is a box collider at the end of each section of track, that when it detects a collision with the car, it moves the section of track just completed to after the other piece of track and reinitializes the obstacles and money on it
         {
+            tutorialNum++;
+            if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Tutorial"))
+            {
+
+                if (tutorialNum == 1)
+                {
+                    uiManager.MovementInstruction.SetActive(false);
+                    uiManager.ObjectiveInstruction.SetActive(true);
+                }
+                else if (tutorialNum == 3)
+                {
+                    uiManager.ObjectiveInstruction.SetActive(false);
+                    uiManager.gameOverPanel.SetActive(true);
+                    Invoke("GoBackToMenu", 3f);
+                }
+            }
             other.GetComponent<Car>().IncreaseSpeed(); //the car speeds up after reaching the end of a piece of track
             transform.position = new Vector3(0, 0, transform.position.z + 80 * 2); //80 is the Z position of track 2; move the track section to the end so the player can keep driving forever
             LayoutObstacles(); //re-randomize the location of the barrel obstacles
