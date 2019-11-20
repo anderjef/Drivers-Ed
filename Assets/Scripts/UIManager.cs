@@ -5,9 +5,9 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    public Image[] hitPoints;
+    public Image[] hitPoints; //three hearts are displayed in the UI representing player lives
     public Text moneyTxt;
-    public GameObject gameOverPanel, pausePanel;
+    public GameObject gameOverPanel, pausePanel; //one overlay for when the player dies, and one for when the game is paused
 
     // Start is called before the first frame update
     void Start()
@@ -26,29 +26,29 @@ public class UIManager : MonoBehaviour
         {
             if (hp > i)
             {
-                hitPoints[i].color = Color.white;
+                hitPoints[i].color = Color.white; //a white heart in the upper left corner of the UI represents a life lost
             }
             else
             {
-                hitPoints[i].color = Color.black;
+                hitPoints[i].color = Color.black; //a black heart in the upper left corner of the UI represents a life not lost
             }
         }
     }
 
     public void UpdateMoney(int money)
     {
-        moneyTxt.text = money.ToString();
+        moneyTxt.text = money.ToString(); //displaying how many coins the player has collected
     }
 
     public void OpenPause()
     {
-        pausePanel.SetActive(true);
+        pausePanel.SetActive(true); //show the pause panel when the pause button is pressed
         //FIXME: save speed and freeze game
     }
 
     public void ClosePause()
     {
-        pausePanel.SetActive(false);
+        pausePanel.SetActive(false); //hide the pause panel when the resume button is pressed
         //FIXME: resume game
     }
 }

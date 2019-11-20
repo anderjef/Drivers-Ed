@@ -5,9 +5,7 @@ using UnityEngine;
 public class Car : MonoBehaviour
 {
     private CharacterController controller;
-    public float speed;
-    public float minSpeed = 10f;
-    public float maxSpeed = 30f;
+    public float speed, minSpeed = 10f, maxSpeed = 30f; //can be modified within Unity
     public float collisionTime;
     public GameObject model;
     private int currentLife = 3;
@@ -15,13 +13,13 @@ public class Car : MonoBehaviour
     static int collidedValue;
     private UIManager uiManager;
     private int money;
-    private double x = 0;
+    private double x = 0; //used to know where the car is currently (laterally) so as to prohibit it from running out of bounds
 
     // Start is called before the first frame update
     void Start()
     {
         controller = GetComponent<CharacterController>();
-        speed = minSpeed;
+        speed = minSpeed; //car starts off slow
         collidedValue = Shader.PropertyToID("_CollidedValue");
         uiManager = FindObjectOfType<UIManager>();
     }
@@ -51,14 +49,13 @@ public class Car : MonoBehaviour
         {
             return;
         }
-        if (other.CompareTag("Obstacle"))
+        if (other.CompareTag("Obstacle")) //not else if because it is possible to collide with both a coin and barrel at the same time
         {
             currentLife--;
-            uiManager.UpdateLives(currentLife);
-            speed = 0;
+            uiManager.UpdateLives(currentLife); //display new life count
+            speed = 0; //briefly (or permanently) freeze the player so they can recognize they lost a life
             if (currentLife <= 0)
             {
-                speed = 0;
                 uiManager.gameOverPanel.SetActive(true);
                 Invoke("GoBackToMenu", 3f); //upon losing all lives, display GameOverPanel for 3 seconds before returning to menu
             }
@@ -69,7 +66,7 @@ public class Car : MonoBehaviour
         }
     }
 
-    IEnumerator Collided (double time)
+    IEnumerator Collided (double time) //collision detection
     {
         collided = true;
         double timer = 0;
@@ -78,8 +75,8 @@ public class Car : MonoBehaviour
         float collisionPeriod = 0.1f;
         bool enabled = false;
 
-        yield return new WaitForSeconds(1f);
-        speed = minSpeed;
+        yield return new WaitForSeconds(1f); //pause for a second
+        speed = minSpeed; //when the car resumes motion, its speed is returned to the minimum/starting speed
         while (timer < time && collided)
         {
             model.SetActive(enabled);
@@ -97,10 +94,10 @@ public class Car : MonoBehaviour
         collided = false;
     }
 
-    public void IncreaseSpeed()
+    public void IncreaseSpeed() //called every 80 or so units whenever the car reaches the end of a section of track
     {
-        speed += 1.15f;
-        if (speed > maxSpeed)
+        speed += 1.15f; //the *= operator would cause difficulty to be exponential instead of linear
+        if (speed > maxSpeed) //enforce speed limit
         {
             speed = maxSpeed;
         }
@@ -108,6 +105,6 @@ public class Car : MonoBehaviour
 
     public void GoBackToMenu()
     {
-        GameManager.gameManager.GameEnd();
+        GameManager.gameManager.GameEnd(); //return to main menu once all lives are lost
     }
 }

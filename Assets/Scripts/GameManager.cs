@@ -44,15 +44,15 @@ public class GameManager : MonoBehaviour
     public void OpenOptions()
     {
         //SceneManager.LoadScene("Options"); //was causing errors
-        uiMenuManager.optionsPanel.SetActive(true);
-        uiMenuManager.mainMenuPanel.SetActive(false);
+        uiMenuManager.optionsPanel.SetActive(true); //show the options panel
+        uiMenuManager.mainMenuPanel.SetActive(false); //hide the main menu panel
     }
 
     public void OpenMenu()
     {
         //SceneManager.LoadScene("Menu"); //was causing errors
-        uiMenuManager.mainMenuPanel.SetActive(true);
-        uiMenuManager.optionsPanel.SetActive(false);
+        uiMenuManager.mainMenuPanel.SetActive(true); //show the main menu panel
+        uiMenuManager.optionsPanel.SetActive(false); //hide the options panel
     }
 
     public void TutorialStart()
@@ -67,6 +67,6 @@ public class GameManager : MonoBehaviour
 
     public void Exit()
     {
-        Application.Quit();
+        Application.Quit(); //kill the application when the exit button is pressed
     }
 }

@@ -1586,7 +1586,7 @@ MeshCollider:
   m_GameObject: {fileID: 535585232}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Convex: 1
   m_CookingOptions: 14
@@ -1721,7 +1721,7 @@ MonoBehaviour:
   - {fileID: 6194352364511033124, guid: 1ad280210a44a0644b5935e8815b0f5e, type: 3}
   - {fileID: 8132051178908443229, guid: 53449f915bc36fe4e9e184f30708210c, type: 3}
   numObstacles: {x: 10, y: 15}
-  money: {fileID: 5393363515542413119, guid: c556980be5d7a65459a322cd8e16e566, type: 3}
+  money: {fileID: 2142074345883392057, guid: 10f2326e14d4b634ba690206717f8b72, type: 3}
   amountOfMoney: {x: 10, y: 50}
   newMoney: []
   nObstacles: []
@@ -1974,7 +1974,7 @@ MonoBehaviour:
   - {fileID: 6194352364511033124, guid: 1ad280210a44a0644b5935e8815b0f5e, type: 3}
   - {fileID: 8132051178908443229, guid: 53449f915bc36fe4e9e184f30708210c, type: 3}
   numObstacles: {x: 10, y: 15}
-  money: {fileID: 5393363515542413119, guid: c556980be5d7a65459a322cd8e16e566, type: 3}
+  money: {fileID: 2142074345883392057, guid: 10f2326e14d4b634ba690206717f8b72, type: 3}
   amountOfMoney: {x: 10, y: 50}
   newMoney: []
   nObstacles: []
