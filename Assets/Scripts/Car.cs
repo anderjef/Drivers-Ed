@@ -7,9 +7,9 @@ public class Car : MonoBehaviour
     private CharacterController controller;
     public float speed, minSpeed = 10f, maxSpeed = 30f; //can be modified within Unity
     public float collisionTime;
-    public GameObject model;
+    public GameObject model, CoinReminder, CollideReminder;
     private int currentLife = 3;
-    private bool collided = false;
+    private bool collided = false, firstcoin = true;
     static int collidedValue;
     private UIManager uiManager;
     private int money;
@@ -22,6 +22,7 @@ public class Car : MonoBehaviour
         speed = minSpeed; //car starts off slow
         collidedValue = Shader.PropertyToID("_CollidedValue");
         uiManager = FindObjectOfType<UIManager>();
+        CoinReminder.SetActive(true);
     }
 
     // Update is called once per frame
@@ -32,6 +33,20 @@ public class Car : MonoBehaviour
         {
             carMove.x = 0;
         }
+        if (Input.GetButton("Fire1")) //ctrl
+        {
+            if (speed >= minSpeed)
+            {
+                speed = speed - 1f;
+            }
+        }
+        if (Input.GetButton("Fire2")) //Alt
+        {
+            if(speed <= maxSpeed)
+            {
+                speed = speed + 1f;
+            }
+        }
         x += carMove.x;
         controller.Move(carMove);
     }
@@ -40,6 +55,11 @@ public class Car : MonoBehaviour
     {
         if (other.CompareTag("Money"))
         {
+            if (firstcoin)
+            {
+                CoinReminder.SetActive(false);
+                firstcoin = false;
+            }
             money++;
             uiManager.UpdateMoney(money);
             //other.transform.parent.gameObject.SetActive(false);
@@ -51,6 +71,7 @@ public class Car : MonoBehaviour
         }
         if (other.CompareTag("Obstacle")) //not else if because it is possible to collide with both a coin and barrel at the same time
         {
+            CollideReminder.SetActive(true);
             currentLife--;
             uiManager.UpdateLives(currentLife); //display new life count
             speed = 0; //briefly (or permanently) freeze the player so they can recognize they lost a life
