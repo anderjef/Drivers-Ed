@@ -15,6 +15,11 @@ public class Car : MonoBehaviour
     private double controls = 0.0;
     private int money;
     private double x = 0; //used to know where the car is currently (laterally) so as to prohibit it from running out of bounds
+    AudioSource tickSource;
+    AudioSource carRev;
+    public AudioClip audio1;
+    public AudioClip audio2;
+    public AudioClip audio3;
 
     // Start is called before the first frame update
     void Start()
@@ -26,6 +31,12 @@ public class Car : MonoBehaviour
         CoinReminder.SetActive(true);
         ControlReminder.SetActive(true);
         SpeedReminder.SetActive(true);
+        AudioSource[] ticksources = GetComponents<AudioSource>();
+        tickSource = ticksources[0];
+        audio1 = ticksources[0].clip;
+        audio2 = ticksources[1].clip;
+        audio3 = ticksources[2].clip;
+        carRev = ticksources[3];
     }
 
     // Update is called once per frame
@@ -70,6 +81,7 @@ public class Car : MonoBehaviour
                 CoinReminder.SetActive(false);
                 firstcoin = false;
             }
+            tickSource.PlayOneShot(audio1, 0.2f);
             money++;
             uiManager.UpdateMoney(money);
             //other.transform.parent.gameObject.SetActive(false);
@@ -81,12 +93,17 @@ public class Car : MonoBehaviour
         }
         if (other.CompareTag("Obstacle")) //not else if because it is possible to collide with both a coin and barrel at the same time
         {
+            tickSource.PlayOneShot(audio2, 0.6f);
+
             CollideReminder.SetActive(true);
             currentLife--;
             uiManager.UpdateLives(currentLife); //display new life count
             speed = 0; //briefly (or permanently) freeze the player so they can recognize they lost a life
             if (currentLife <= 0)
             {
+                carRev.mute = true;
+                tickSource.PlayOneShot(audio3, 2f);
+
                 uiManager.gameOverPanel.SetActive(true);
                 Invoke("GoBackToMenu", 3f); //upon losing all lives, display GameOverPanel for 3 seconds before returning to menu
             }
