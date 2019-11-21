@@ -2,29 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
     public Image[] hitPoints; //three hearts are displayed in the UI representing player lives
     public Text moneyTxt;
-    public GameObject gameOverPanel, pausePanel, startPanel; //one overlay for when the player dies, and one for when the game is paused
+    public GameObject gameOverPanel, pausePanel, startPanel; //one overlay for when the player dies, one for when the game is paused, and one for initially setting difficulty
     private Car car;
     public Slider startDifficulty, difficulty; //used to modify the car's speed (and hence the game's difficulty)
 
     // Start is called before the first frame update
     void Start()
     {
-        //if (this.name == "Canvas")
-        //{
-            //Debug.Log(this.name);
+        if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Tutorial")) //tutorial mode has no starting difficulty setting (automatically set to easiest difficulty)
+        {
             Time.timeScale = 0;
-            pausePanel.SetActive(false);
-            gameOverPanel.SetActive(false);
             startPanel.SetActive(true);
-            startPanel.SetActive(true);
-            car = FindObjectOfType<Car>();
-        //}
-        //Debug.Log(this.name);
+        }
+        pausePanel.SetActive(false);
+        gameOverPanel.SetActive(false);
+        car = FindObjectOfType<Car>();
     }
 
     // Update is called once per frame
@@ -36,10 +34,6 @@ public class UIManager : MonoBehaviour
     public void updateDifficulty()
     {
         car.minSpeed = difficulty.value * 5 + 10;
-        if (car.speed < car.minSpeed)
-        {
-            car.speed = car.minSpeed;
-        }
     }
 
     public void startUpdateDifficulty()
@@ -76,6 +70,10 @@ public class UIManager : MonoBehaviour
 
     public void ClosePause()
     {
+        if (car.speed < car.minSpeed)
+        {
+            car.speed = car.minSpeed;
+        }
         pausePanel.SetActive(false); //hide the pause panel when the resume button is pressed
         Time.timeScale = 1;
     }

@@ -42,21 +42,21 @@ public class GameManager : MonoBehaviour
 
     public void OpenOptions()
     {
-        //SceneManager.LoadScene("Options"); //was causing errors
+        //SceneManager.LoadScene("Options"); //was causing problems
         uiMenuManager.optionsPanel.SetActive(true); //show the options panel
         uiMenuManager.mainMenuPanel.SetActive(false); //hide the main menu panel
     }
 
     public void OpenMenu()
     {
-        //SceneManager.LoadScene("Menu"); //was causing errors
+        //SceneManager.LoadScene("Menu"); //was causing problems
         uiMenuManager.mainMenuPanel.SetActive(true); //show the main menu panel
         uiMenuManager.optionsPanel.SetActive(false); //hide the options panel
     }
 
     public void TutorialStart()
     {
-        SceneManager.LoadScene("Tutorial"); //FIXME: implement (same as Game scene but lives don't matter and there are instructions?)
+        SceneManager.LoadSceneAsync("Tutorial", LoadSceneMode.Single);
     }
 
     public void GameEnd()

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Car : MonoBehaviour
 {
@@ -8,7 +9,7 @@ public class Car : MonoBehaviour
     public float speed, minSpeed = 10f, maxSpeed = 30f; //can be modified within Unity
     public float collisionTime;
     public GameObject model, CoinReminder, CollideReminder, ControlReminder, SpeedReminder;
-    private int currentLife = 3;
+    public int currentLife = 3; //maximum number of lives; can be modified within Unity
     private bool collided = false, firstcoin = true, showcont = true;
     static int collidedValue;
     private UIManager uiManager;
@@ -17,9 +18,7 @@ public class Car : MonoBehaviour
     private double x = 0; //used to know where the car is currently (laterally) so as to prohibit it from running out of bounds
     AudioSource tickSource;
     AudioSource carRev;
-    public AudioClip audio1;
-    public AudioClip audio2;
-    public AudioClip audio3;
+    public AudioClip audio1, audio2, audio3;
 
     // Start is called before the first frame update
     void Start()
@@ -28,9 +27,12 @@ public class Car : MonoBehaviour
         speed = minSpeed; //car starts off slow
         collidedValue = Shader.PropertyToID("_CollidedValue");
         uiManager = FindObjectOfType<UIManager>();
-        CoinReminder.SetActive(true);
         ControlReminder.SetActive(true);
         SpeedReminder.SetActive(true);
+        if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Tutorial")) //tutorial mode doesn't have a coin reminder
+        {
+            CoinReminder.SetActive(true);
+        }
         AudioSource[] ticksources = GetComponents<AudioSource>();
         tickSource = ticksources[0];
         audio1 = ticksources[0].clip;
@@ -43,7 +45,7 @@ public class Car : MonoBehaviour
     void Update()
     {
         controls += Time.deltaTime;
-        if((controls > 5.0)&&(showcont))
+        if(showcont && (controls > 5)) //showcont is first because with the double ampersand operator, if the first condition already gives the answer to the full condition, the computer will know not to check the second condition, and in this case it's more likely that showcont will be false than controls < 5
         {
             ControlReminder.SetActive(false);
             SpeedReminder.SetActive(false);
@@ -63,7 +65,7 @@ public class Car : MonoBehaviour
         }
         if (Input.GetButton("Fire2")) //Alt
         {
-            if(speed <= maxSpeed)
+            if(speed < maxSpeed)
             {
                 speed = speed + 1f;
             }
@@ -76,7 +78,7 @@ public class Car : MonoBehaviour
     {
         if (other.CompareTag("Money"))
         {
-            if (firstcoin)
+            if (firstcoin && SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Tutorial")) //tutorial mode doesn't have a coin reminder
             {
                 CoinReminder.SetActive(false);
                 firstcoin = false;
@@ -84,7 +86,7 @@ public class Car : MonoBehaviour
             tickSource.PlayOneShot(audio1, 0.2f);
             money++;
             uiManager.UpdateMoney(money);
-            //other.transform.parent.gameObject.SetActive(false);
+            //other.transform.parent.gameObject.SetActive(false); //if the money prefab had a parent object (money holder)
             other.transform.gameObject.SetActive(false);
         }
         if (collided)
@@ -94,11 +96,10 @@ public class Car : MonoBehaviour
         if (other.CompareTag("Obstacle")) //not else if because it is possible to collide with both a coin and barrel at the same time
         {
             tickSource.PlayOneShot(audio2, 0.6f);
-
             CollideReminder.SetActive(true);
             currentLife--;
             uiManager.UpdateLives(currentLife); //display new life count
-            speed = 0; //briefly (or permanently) freeze the player so they can recognize they lost a life
+            speed = 0; //briefly (or permanently) freeze the player so they can register they lost a life
             if (currentLife <= 0)
             {
                 carRev.mute = true;
@@ -144,7 +145,14 @@ public class Car : MonoBehaviour
 
     public void IncreaseSpeed() //called every 80 or so units whenever the car reaches the end of a section of track
     {
-        speed += 1.15f; //the *= operator would cause difficulty to be exponential instead of linear
+        if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Tutorial"))
+        {
+            speed += 1.15f; //tutorial difficulty is linear
+        }
+        else
+        {
+            speed *= 1.15f; //full game and sandbox difficulties are exponential
+        }
         if (speed > maxSpeed) //enforce speed limit
         {
             speed = maxSpeed;
