@@ -78,12 +78,12 @@ public class Track : MonoBehaviour
             {
                 if (tutorialNum == 1)
                 {
-                    //uiManager.MovementInstruction.SetActive(false);; Phillip didn't have this commented
-                    //uiManager.ObjectiveInstruction.SetActive(true);; Phillip didn't have this commented
+                    //uiManager.MovementInstruction.SetActive(false); //FIXME: shouldn't be commented?
+                    //uiManager.ObjectiveInstruction.SetActive(true); //FIXME: shouldn't be commented?
                 }
                 else if (tutorialNum == 3)
                 {
-                    //uiManager.ObjectiveInstruction.SetActive(false);; Phillip didn't have this commented
+                    //uiManager.ObjectiveInstruction.SetActive(false); //FIXME: shouldn't be commented?
                     uiManager.gameOverPanel.SetActive(true);
                     Invoke("GoBackToMenu", 3f);
                 }
