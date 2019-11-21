@@ -59,6 +59,11 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadSceneAsync("Tutorial", LoadSceneMode.Single);
     }
 
+    public void SandboxStart()
+    {
+        SceneManager.LoadSceneAsync("Sandbox", LoadSceneMode.Single);
+    }
+
     public void GameEnd()
     {
         SceneManager.LoadSceneAsync("Menu", LoadSceneMode.Single);
