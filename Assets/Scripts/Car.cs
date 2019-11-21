@@ -35,7 +35,7 @@ public class Car : MonoBehaviour
         tickSource = ticksources[0];
         audio1 = ticksources[0].clip;
         audio2 = ticksources[1].clip;
-        audio3 = ticksources[1].clip;
+        audio3 = ticksources[2].clip;
         carRev = ticksources[3];
     }
 
