@@ -100,11 +100,10 @@ public class Car : MonoBehaviour
             currentLife--;
             uiManager.UpdateLives(currentLife); //display new life count
             speed = 0; //briefly (or permanently) freeze the player so they can register they lost a life
-            if (currentLife <= 0)
+            if (currentLife <= 0 && SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Sandbox")) //can't lose in sandbox mode
             {
                 carRev.mute = true;
                 tickSource.PlayOneShot(audio3, 2f);
-
                 uiManager.gameOverPanel.SetActive(true);
                 Invoke("GoBackToMenu", 3f); //upon losing all lives, display GameOverPanel for 3 seconds before returning to menu
             }

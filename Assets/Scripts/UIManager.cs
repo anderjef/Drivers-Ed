@@ -31,14 +31,14 @@ public class UIManager : MonoBehaviour
 
     }
 
-    public void updateDifficulty()
+    public void updateDifficulty() //difficulty sliders change the car's minimum speed from 10-20
     {
-        car.minSpeed = difficulty.value * 5 + 10;
+        car.minSpeed = difficulty.value * 10 + 10;
     }
 
-    public void startUpdateDifficulty()
+    public void startUpdateDifficulty() //difficulty sliders change the car's minimum speed from 10-20
     {
-        car.minSpeed = startDifficulty.value * 5 + 10;
+        car.minSpeed = startDifficulty.value * 10 + 10;
     }
 
     public void UpdateLives(int hp)
