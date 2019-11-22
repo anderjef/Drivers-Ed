@@ -10,6 +10,7 @@ public class Track : MonoBehaviour
     public Vector2 numObstacles, amountOfMoney; //can be modified within Unity
     public int tutorialNum = 0;
     private UIManager uiManager;
+    private Car car; //used to set the car's speed at game over in tutorial mode
 
     [HideInInspector]
     public List<GameObject> newMoney;
@@ -19,7 +20,9 @@ public class Track : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        car = FindObjectOfType<Car>();
         uiManager = FindObjectOfType<UIManager>();
+        uiManager.ObjectiveInstruction.SetActive(false); //(tutorial mode) starts off with no objective instructions
         int newNumMoney = (int)Random.Range(amountOfMoney.x, amountOfMoney.y);
         int newNumObstacles = (int)Random.Range(numObstacles.x, numObstacles.y);
 
@@ -73,19 +76,21 @@ public class Track : MonoBehaviour
     {
         if (other.CompareTag("Car")) //there is a box collider at the end of each section of track, that when it detects a collision with the car, it moves the section of track just completed to after the other piece of track and reinitializes the obstacles and money on it
         {
-            tutorialNum++;
             if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Tutorial"))
             {
-                if (tutorialNum == 1)
+                tutorialNum++;
+                if (tutorialNum == 1) //after the car reaches the end of the first piece of track
                 {
-                    //uiManager.MovementInstruction.SetActive(false); //FIXME: shouldn't be commented?
-                    //uiManager.ObjectiveInstruction.SetActive(true); //FIXME: shouldn't be commented?
+                    uiManager.MovementInstruction.SetActive(false);
+                    uiManager.ObjectiveInstruction.SetActive(true);
                 }
-                else if (tutorialNum == 3)
+                else if (tutorialNum == 3) //the third time the car reaches the end of the first track
                 {
-                    //uiManager.ObjectiveInstruction.SetActive(false); //FIXME: shouldn't be commented?
                     uiManager.gameOverPanel.SetActive(true);
-                    Invoke("GoBackToMenu", 3f);
+                    car.minSpeed = 0; //so car won't resume motion
+                    car.maxSpeed = 0; //so car won't resume motion
+                    car.speed = 0; //stop car
+                    Invoke("BackToMenu", 3f);
                 }
             }
             other.GetComponent<Car>().IncreaseSpeed(); //the car speeds up after reaching the end of a piece of track
@@ -93,5 +98,10 @@ public class Track : MonoBehaviour
             LayoutObstacles(); //re-randomize the location of the barrel obstacles
             LayoutMoney(); //re-randomize the location of the coins
         }
+    }
+
+    public void BackToMenu()
+    {
+        GameManager.gameManager.GameEnd(); //return to main menu once all lives are lost
     }
 }

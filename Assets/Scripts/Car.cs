@@ -9,11 +9,11 @@ public class Car : MonoBehaviour
     public float speed, minSpeed = 10f, maxSpeed = 30f; //can be modified within Unity
     public float collisionTime;
     public GameObject model, CoinReminder, CollideReminder, ControlReminder, SpeedReminder;
-    public int currentLife = 3; //maximum number of lives; can be modified within Unity
-    private bool collided = false, firstcoin = true, showcont = true;
+    public int currentLife = 3; //maximum number of lives; can be modified within Unity, but only the last three lives will be shown in the upper left corner
+    private bool collided = false, firstcoin = true;
     static int collidedValue;
     private UIManager uiManager;
-    private double controls = 0.0;
+    private double controls = 0;
     private int money;
     private double x = 0; //used to know where the car is currently (laterally) so as to prohibit it from running out of bounds
     AudioSource tickSource;
@@ -45,11 +45,10 @@ public class Car : MonoBehaviour
     void Update()
     {
         controls += Time.deltaTime;
-        if(showcont && (controls > 5)) //showcont is first because with the double ampersand operator, if the first condition already gives the answer to the full condition, the computer will know not to check the second condition, and in this case it's more likely that showcont will be false than controls < 5
+        if((SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Tutorial")) && (controls > 5)) //checking for tutorial mode is first because with the double ampersand operator, if the first condition already gives the answer to the full condition, the computer will know not to check the second condition, and in this case it's more likely that it will not be tutorial mode than controls < 5
         {
             ControlReminder.SetActive(false);
             SpeedReminder.SetActive(false);
-            showcont = false;
         }
         Vector3 carMove = new Vector3(Input.GetAxisRaw("Horizontal") * speed * Time.deltaTime, 0, speed * Time.deltaTime); //z is forward
         if ((x < -5 && carMove.x < 0) || (x > 5 && carMove.x > 0)) //setting left and right boundaries
@@ -58,7 +57,7 @@ public class Car : MonoBehaviour
         }
         if (Input.GetButton("Fire1")) //ctrl
         {
-            if (speed >= minSpeed)
+            if (speed > minSpeed)
             {
                 speed = speed - 1f;
             }
@@ -144,13 +143,13 @@ public class Car : MonoBehaviour
 
     public void IncreaseSpeed() //called every 80 or so units whenever the car reaches the end of a section of track
     {
-        if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Tutorial"))
+        if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Game"))
         {
-            speed += 1.15f; //tutorial difficulty is linear
+            speed += 1.15f; //tutorial and sandbox difficulties are linear
         }
         else
         {
-            speed *= 1.15f; //full game and sandbox difficulties are exponential
+            speed *= 1.15f; //full game difficulty is exponential
         }
         if (speed > maxSpeed) //enforce speed limit
         {

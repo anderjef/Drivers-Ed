@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviour
     public Image[] hitPoints; //three hearts are displayed in the UI representing player lives
     public Text moneyTxt;
     public GameObject gameOverPanel, pausePanel, startPanel; //one overlay for when the player dies, one for when the game is paused, and one for initially setting difficulty
+    public GameObject MovementInstruction, ObjectiveInstruction; //one overlay for movement instructions, one for objective information for tutorial mode
     private Car car;
     public Slider startDifficulty, difficulty; //used to modify the car's speed (and hence the game's difficulty)
 
