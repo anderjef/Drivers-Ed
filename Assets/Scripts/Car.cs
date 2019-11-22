@@ -51,12 +51,16 @@ public class Car : MonoBehaviour
                 CollideReminder.SetActive(false);
             }
         }
-        controlsTimer += Time.deltaTime;
-        if((SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Tutorial")) && (controlsTimer > 5)) //checking for tutorial mode is first because with the double ampersand operator, if the first condition already gives the answer to the full condition, the computer will know not to check the second condition, and in this case it's more likely that it will not be tutorial mode than controls < 5
+        if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Tutorial"))
         {
-            ControlReminder.SetActive(false);
-            SpeedReminder.SetActive(false);
+            controlsTimer += Time.deltaTime;
+            if (controlsTimer > 5)
+            {
+                ControlReminder.SetActive(false);
+                SpeedReminder.SetActive(false);
+            }
         }
+
         Vector3 carMove = new Vector3(Input.GetAxisRaw("Horizontal") * speed * Time.deltaTime, 0, speed * Time.deltaTime); //z is forward
         if ((this.transform.localPosition.x < -5 && carMove.x < 0) || (this.transform.localPosition.x > 5 && carMove.x > 0)) //setting left and right boundaries
         {
@@ -84,14 +88,14 @@ public class Car : MonoBehaviour
                 speed = speed + 1f;
             }
         }
-        if (carMove.x != 0)
+        if (carMove.x != 0) //for debugging keeping the car on the road
         {
             Debug.Log("");
             Debug.Log(carMove);
             Debug.Log(this.transform.localPosition.x);
         }
         controller.Move(carMove);
-        if (carMove.x != 0)
+        if (carMove.x != 0) //for debugging keeping the car on the road
         {
             Debug.Log(this.transform.localPosition.x);
         }
