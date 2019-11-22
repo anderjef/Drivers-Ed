@@ -49,6 +49,10 @@ public class Car : MonoBehaviour
             if (collideReminderTimer > 5)
             {
                 CollideReminder.SetActive(false);
+                if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Tutorial")) //in tutorial mode, the collision reminder is shown after every collision (which is achieved by resetting the timer)
+                {
+                    collideReminderTimer = 0;
+                }
             }
         }
         if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Tutorial")) //in tutorial mode, control and speed reminders are shown permanently
@@ -61,7 +65,7 @@ public class Car : MonoBehaviour
             }
         }
 
-        if (collided || uiManager.gameOverPanel.activeSelf) //don't update location (move car) or speed if car is collided with something or game is over
+        if (uiManager.gameOverPanel.activeSelf) //don't update location (move car) or speed during the game over panel
         {
             return;
         }
