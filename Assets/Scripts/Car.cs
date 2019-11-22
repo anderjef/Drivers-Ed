@@ -43,7 +43,7 @@ public class Car : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (CollideReminder.activeSelf)
+        if (CollideReminder.activeSelf) //only show collide reminder for five seconds
         {
             collideReminderTimer += Time.deltaTime;
             if (collideReminderTimer > 5)
@@ -51,7 +51,7 @@ public class Car : MonoBehaviour
                 CollideReminder.SetActive(false);
             }
         }
-        if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Tutorial"))
+        if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Tutorial")) //in tutorial mode, control and speed reminders are shown permanently
         {
             controlsTimer += Time.deltaTime;
             if (controlsTimer > 5)
@@ -61,43 +61,29 @@ public class Car : MonoBehaviour
             }
         }
 
+        if (collided || uiManager.gameOverPanel.activeSelf) //don't update location (move car) or speed if car is collided with something or game is over
+        {
+            return;
+        }
+
         Vector3 carMove = new Vector3(Input.GetAxisRaw("Horizontal") * speed * Time.deltaTime, 0, speed * Time.deltaTime); //z is forward
-        if ((this.transform.localPosition.x < -5 && carMove.x < 0) || (this.transform.localPosition.x > 5 && carMove.x > 0)) //setting left and right boundaries
+        if (this.transform.localPosition.x + carMove.x > 5) //setting left and right boundaries
         {
-            carMove.x = 0;
-            if (this.transform.localPosition.x < -5)
-            {
-                //FIXME: get the car back on the road
-            }
-            else if (this.transform.localPosition.x > 5)
-            {
-                //FIXME: get the car back on the road
-            }
+            carMove.x = 5 - this.transform.localPosition.x;
         }
-        if (Input.GetButton("Fire1")) //ctrl
+        else if (this.transform.localPosition.x + carMove.x < -5)
         {
-            if (speed > minSpeed)
-            {
-                speed = speed - 1f;
-            }
-        }
-        if (Input.GetButton("Fire2")) //Alt
-        {
-            if(speed < maxSpeed)
-            {
-                speed = speed + 1f;
-            }
-        }
-        if (carMove.x != 0) //for debugging keeping the car on the road
-        {
-            Debug.Log("");
-            Debug.Log(carMove);
-            Debug.Log(this.transform.localPosition.x);
+            carMove.x = -5 - this.transform.localPosition.x;
         }
         controller.Move(carMove);
-        if (carMove.x != 0) //for debugging keeping the car on the road
+
+        if (Input.GetButton("Fire1") && speed > minSpeed) //ctrl
         {
-            Debug.Log(this.transform.localPosition.x);
+            speed = speed - 1f;
+        }
+        if (Input.GetButton("Fire2") && speed < maxSpeed) //Alt; not else if because if both ctrl and alt are pressed, it is assumed the user wants to leave speed as is
+        {
+            speed = speed + 1f;
         }
     }
 
