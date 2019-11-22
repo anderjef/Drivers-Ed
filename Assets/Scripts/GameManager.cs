@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
         uiMenuManager = FindObjectOfType<UIMenuManager>();
         uiMenuManager.mainMenuPanel.SetActive(true);
         uiMenuManager.optionsPanel.SetActive(false);
+        uiMenuManager.accessibilityPanel.SetActive(false);
     }
 
     // Update is called once per frame
@@ -52,6 +53,12 @@ public class GameManager : MonoBehaviour
         //SceneManager.LoadScene("Menu"); //was causing problems
         uiMenuManager.mainMenuPanel.SetActive(true); //show the main menu panel
         uiMenuManager.optionsPanel.SetActive(false); //hide the options panel
+        uiMenuManager.accessibilityPanel.SetActive(false);
+    }
+    public void OpenAccessibility()
+    {
+        uiMenuManager.accessibilityPanel.SetActive(true);
+        uiMenuManager.mainMenuPanel.SetActive(false);
     }
 
     public void TutorialStart()
