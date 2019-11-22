@@ -13,7 +13,7 @@ public class Car : MonoBehaviour
     private bool collided = false, firstcoin = true;
     static int collidedValue;
     private UIManager uiManager;
-    private double controls = 0;
+    private double controlsTimer = 0, collideReminderTimer = 0;
     private int money;
     AudioSource tickSource;
     AudioSource carRev;
@@ -43,8 +43,16 @@ public class Car : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        controls += Time.deltaTime;
-        if((SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Tutorial")) && (controls > 5)) //checking for tutorial mode is first because with the double ampersand operator, if the first condition already gives the answer to the full condition, the computer will know not to check the second condition, and in this case it's more likely that it will not be tutorial mode than controls < 5
+        if (CollideReminder.activeSelf)
+        {
+            collideReminderTimer += Time.deltaTime;
+            if (collideReminderTimer > 5)
+            {
+                CollideReminder.SetActive(false);
+            }
+        }
+        controlsTimer += Time.deltaTime;
+        if((SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Tutorial")) && (controlsTimer > 5)) //checking for tutorial mode is first because with the double ampersand operator, if the first condition already gives the answer to the full condition, the computer will know not to check the second condition, and in this case it's more likely that it will not be tutorial mode than controls < 5
         {
             ControlReminder.SetActive(false);
             SpeedReminder.SetActive(false);
@@ -76,7 +84,17 @@ public class Car : MonoBehaviour
                 speed = speed + 1f;
             }
         }
+        if (carMove.x != 0)
+        {
+            Debug.Log("");
+            Debug.Log(carMove);
+            Debug.Log(this.transform.localPosition.x);
+        }
         controller.Move(carMove);
+        if (carMove.x != 0)
+        {
+            Debug.Log(this.transform.localPosition.x);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -101,7 +119,10 @@ public class Car : MonoBehaviour
         if (other.CompareTag("Obstacle")) //not else if because it is possible to collide with both a coin and barrel at the same time
         {
             tickSource.PlayOneShot(audio2, 0.6f);
-            CollideReminder.SetActive(true);
+            if (collideReminderTimer == 0) //only display the collider reminder once
+            {
+                CollideReminder.SetActive(true);
+            }
             currentLife--;
             uiManager.UpdateLives(currentLife); //display new life count
             speed = 0; //briefly (or permanently) freeze the player so they can register they lost a life
