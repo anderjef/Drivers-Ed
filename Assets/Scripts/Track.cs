@@ -7,7 +7,7 @@ public class Track : MonoBehaviour
 {
     public GameObject[] obstacles; //there are five obstacle (barrel) prefabs hence an array
     public GameObject money; //there is only one money prefab
-    public Vector2 numObstacles, amountOfMoney; //can be modified within Unity
+    public Vector2 numObstacles, amountOfMoney; //can be modified within Unity; note that a numObstacles.y > 100 (= 80f / 0.8f = length of track / diameter of barrel) creates the chance for barrels to be too close to each other (such that they merge)
     public int tutorialNum = 0;
     private UIManager uiManager;
     private Car car; //used to set the car's speed at game over in tutorial mode
@@ -50,25 +50,23 @@ public class Track : MonoBehaviour
 
     void LayoutObstacles()
     {
-        for (int i = 1; i < nObstacles.Count + 1; ++i)
+        for (int i = 0; i < nObstacles.Count; ++i)
         {
-            float pZMin = i * (80f / nObstacles.Count) + 5f; //80f is the Z position of track 2
-            float pZMax = i * (80f / nObstacles.Count) + 6f; //80f is the Z position of track 2
-            nObstacles[i - 1].transform.localPosition = new Vector3(Random.Range(-5, 6), 0, Random.Range(pZMin, pZMax)); //x position is random on the road, y position is ground level, z position is within the limits of the piece of track
-            nObstacles[i - 1].SetActive(true);
+            nObstacles[i].transform.localPosition = new Vector3(Random.Range(-5.75f, 5.75f), 0, Random.Range(i * (80f / nObstacles.Count) + 0.4f, (i + 1) * (80f / nObstacles.Count) - 0.4f)); //x position is random on the road, y position is ground level, z position is within the length (80f) of a piece of track (0.4f is the approximate radius of a barrel)
+            nObstacles[i].SetActive(true);
         }
     }
 
-    void LayoutMoney()
+    void LayoutMoney() //FIXME: money spawns too far off track and don't have money collide with barrels if that's reasonable
     {
         float minZP = 10f;
         for (int i = 0; i < newMoney.Count; ++i)
         {
             float maxZP = minZP + 5f;
             float randomZP = Random.Range(minZP, maxZP);
-            newMoney[i].transform.localPosition = new Vector3(Random.Range(-5, 6), 1, randomZP); //x position is random on the road, y position is just above ground level, z position is within the limits of the piece of track
+            newMoney[i].transform.localPosition = new Vector3(Random.Range(-5.75f, 5.75f), 1, randomZP); //x position is random on the road, y position is just above ground level, z position is within the length (80f) of a piece of track
             newMoney[i].SetActive(true);
-            minZP = randomZP + 1;
+            minZP = randomZP + 3;
         }
     }
 
@@ -87,6 +85,7 @@ public class Track : MonoBehaviour
                 else if (tutorialNum == 3) //the third time the car reaches the end of the first track
                 {
                     uiManager.gameOverPanel.SetActive(true);
+                    //Time.timeScale = 0 doesn't work here because Invoke needs to count down
                     car.minSpeed = 0; //so car won't resume motion
                     car.maxSpeed = 0; //so car won't resume motion
                     car.speed = 0; //stop car

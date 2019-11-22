@@ -15,7 +15,6 @@ public class Car : MonoBehaviour
     private UIManager uiManager;
     private double controls = 0;
     private int money;
-    private double x = 0; //used to know where the car is currently (laterally) so as to prohibit it from running out of bounds
     AudioSource tickSource;
     AudioSource carRev;
     public AudioClip audio1, audio2, audio3;
@@ -51,9 +50,17 @@ public class Car : MonoBehaviour
             SpeedReminder.SetActive(false);
         }
         Vector3 carMove = new Vector3(Input.GetAxisRaw("Horizontal") * speed * Time.deltaTime, 0, speed * Time.deltaTime); //z is forward
-        if ((x < -5 && carMove.x < 0) || (x > 5 && carMove.x > 0)) //setting left and right boundaries
+        if ((this.transform.localPosition.x < -5 && carMove.x < 0) || (this.transform.localPosition.x > 5 && carMove.x > 0)) //setting left and right boundaries
         {
             carMove.x = 0;
+            if (this.transform.localPosition.x < -5)
+            {
+                //FIXME: get the car back on the road
+            }
+            else if (this.transform.localPosition.x > 5)
+            {
+                //FIXME: get the car back on the road
+            }
         }
         if (Input.GetButton("Fire1")) //ctrl
         {
@@ -69,7 +76,6 @@ public class Car : MonoBehaviour
                 speed = speed + 1f;
             }
         }
-        x += carMove.x;
         controller.Move(carMove);
     }
 
