@@ -12,6 +12,7 @@ public class UIManager : MonoBehaviour
     public GameObject MovementInstruction, ObjectiveInstruction; //one overlay for movement instructions, one for objective information for tutorial mode
     private Car car;
     public Slider startDifficulty, difficulty; //used to modify the car's speed (and hence the game's difficulty)
+    public Slider carModel; //used to pick the car model
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +31,11 @@ public class UIManager : MonoBehaviour
     void Update()
     {
 
+    }
+
+    public void pickModel()
+    {
+        car.updateCarModel((int)carModel.value);
     }
 
     public void updateDifficulty() //difficulty sliders change the car's minimum speed from 10-20
