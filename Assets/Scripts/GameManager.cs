@@ -6,15 +6,30 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager gameManager;
-    private UIMenuManager uiMenuManager;
+    private GameObject canvas, mainMenuPanel, optionsPanel, accessibilityPanel;
 
     // Start is called before the first frame update
     void Start()
     {
-        uiMenuManager = FindObjectOfType<UIMenuManager>();
-        uiMenuManager.mainMenuPanel.SetActive(true);
-        uiMenuManager.optionsPanel.SetActive(false);
-        uiMenuManager.accessibilityPanel.SetActive(false);
+        canvas = GameObject.Find("Canvas");
+        for (int i = 0; i < canvas.gameObject.transform.childCount; ++i)
+        {
+            if (canvas.gameObject.transform.GetChild(i).name == "MainMenuPanel")
+            {
+                mainMenuPanel = canvas.gameObject.transform.GetChild(i).gameObject;
+            }
+            else if (canvas.gameObject.transform.GetChild(i).name == "OptionsPanel")
+            {
+                optionsPanel = canvas.gameObject.transform.GetChild(i).gameObject;
+            }
+            else if (canvas.gameObject.transform.GetChild(i).name == "AccessibilityPanel")
+            {
+                accessibilityPanel = canvas.gameObject.transform.GetChild(i).gameObject;
+            }
+        }
+        mainMenuPanel.SetActive(true);
+        optionsPanel.SetActive(false);
+        accessibilityPanel.SetActive(false);
     }
 
     // Update is called once per frame
@@ -43,22 +58,22 @@ public class GameManager : MonoBehaviour
 
     public void OpenOptions()
     {
-        //SceneManager.LoadScene("Options"); //was causing problems
-        uiMenuManager.optionsPanel.SetActive(true); //show the options panel
-        uiMenuManager.mainMenuPanel.SetActive(false); //hide the main menu panel
+        //SceneManager.LoadSceneAsync("Options"); //was causing problems
+        optionsPanel.SetActive(true); //show the options panel
+        mainMenuPanel.SetActive(false); //hide the main menu panel
     }
 
     public void OpenMenu()
     {
-        //SceneManager.LoadScene("Menu"); //was causing problems
-        uiMenuManager.mainMenuPanel.SetActive(true); //show the main menu panel
-        uiMenuManager.optionsPanel.SetActive(false); //hide the options panel
-        uiMenuManager.accessibilityPanel.SetActive(false);
+        //SceneManager.LoadSceneAsync("Menu"); //was causing problems
+        mainMenuPanel.SetActive(true); //show the main menu panel
+        optionsPanel.SetActive(false); //hide the options panel
+        accessibilityPanel.SetActive(false);
     }
     public void OpenAccessibility()
     {
-        uiMenuManager.accessibilityPanel.SetActive(true);
-        uiMenuManager.mainMenuPanel.SetActive(false);
+        accessibilityPanel.SetActive(true);
+        mainMenuPanel.SetActive(false);
     }
 
     public void TutorialStart()
