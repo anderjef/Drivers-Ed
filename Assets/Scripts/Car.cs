@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEditor; //assetdatabase
+//using UnityEditor; //assetdatabase //assetdatabase cannot be built
 
 public class Car : MonoBehaviour
 {
@@ -32,10 +32,6 @@ public class Car : MonoBehaviour
         if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Tutorial")) //tutorial mode doesn't have a coin reminder
         {
             CoinReminder.SetActive(true);
-        }
-        if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Sandbox")) //sandbox uses the currentLife as a barrels counter
-        {
-            currentLife = 0;
         }
         AudioSource[] ticksources = GetComponents<AudioSource>();
         tickSource = ticksources[0];
@@ -195,6 +191,10 @@ public class Car : MonoBehaviour
             {
                 //speed = minSpeed; //could set speed back to the lower bound
                 speed -= 5; //could decrement the speed by a constant (arbitrary) amount
+                if (speed < minSpeed)
+                {
+                    speed = minSpeed;
+                }
                 //could leave the speed alone
             }
         }
@@ -251,7 +251,7 @@ public class Car : MonoBehaviour
             this.transform.Find("Car" + i.ToString()).gameObject.SetActive(false);
         }
         this.transform.Find("Car" + carChoice.ToString()).gameObject.SetActive(true);
-        this.GetComponent<MeshCollider>().sharedMesh = (Mesh)AssetDatabase.LoadAssetAtPath("Assets/Racing Cars Pack 1/FBXs/Car" + carChoice.ToString() + ".fbx", typeof(Mesh)); //get the mesh (for the mesh collider) corresponding to the chosen car
+        //this.GetComponent<MeshCollider>().sharedMesh = (Mesh)AssetDatabase.LoadAssetAtPath("Assets/Racing Cars Pack 1/FBXs/Car" + carChoice.ToString() + ".fbx", typeof(Mesh)); //get the mesh (for the mesh collider) corresponding to the chosen car //assetdatabase cannot be built
     }
 
     public void GoBackToMenu()
