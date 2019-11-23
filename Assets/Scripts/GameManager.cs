@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager gameManager;
-    private GameObject canvas, mainMenuPanel, optionsPanel, accessibilityPanel;
+    private GameObject canvas, mainMenuPanel, optionsPanel, accessibilityPanel; //these don't require linking because the program will find the objects in the Start function
 
     // Start is called before the first frame update
     void Start()

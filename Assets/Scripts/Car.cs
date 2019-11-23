@@ -170,6 +170,10 @@ public class Car : MonoBehaviour
             {
                 CollideReminder.SetActive(true);
             }
+            else if (CollideReminder.activeSelf && SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Tutorial")) //a second collision resets the countdown in tutorial mode
+            {
+                collideReminderTimer = 0;
+            }
             currentLife--;
             uiManager.UpdateLives(currentLife); //display new life count
             if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Sandbox")) //sandbox doesn't even slow down for collisions, let alone lose the game

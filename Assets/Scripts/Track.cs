@@ -7,13 +7,15 @@ public class Track : MonoBehaviour
 {
     public GameObject[] obstacles; //there are five obstacle (barrel) prefabs hence an array
     public GameObject money; //there is only one money prefab
-    public Vector2 numObstacles, amountOfMoney; //can be modified within Unity; note that a numObstacles.y > 100 (= length of track / diameter of barrel = 80f / 0.8f) creates the chance for barrels to be too close to each other (such that they merge)
+    public Vector2 numObstacles, amountOfMoney; //can be modified within Unity; note that a numObstacles.y > trackLength / diameter of barrel (which is approximately 0.8f) creates the chance for barrels to be too close to each other (such that they merge)
     public int tutorialNum = 0;
     private UIManager uiManager;
     private Car car; //used to set the car's speed at game over in tutorial mode
 
     [HideInInspector]
     public List<GameObject> nObstacles, newMoney;
+
+    private const float trackLength = 80f; //to be updated as required
 
     // Start is called before the first frame update
     void Start()
@@ -50,7 +52,7 @@ public class Track : MonoBehaviour
         {
             nObstacles[i].transform.eulerAngles = new Vector3(270, 0, 0); //set the barrel standing up
             nObstacles[i].GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0); //set the barrel's velocity to zero
-            nObstacles[i].transform.localPosition = new Vector3(Random.Range(-5.75f, 5.75f), 0.05f, Random.Range(i * (80f / nObstacles.Count) + 0.4f, (i + 1) * (80f / nObstacles.Count) - 0.4f)); //x position is random on the road, y position is ground level, z position is within the length (80f) of a piece of track (0.4f is the approximate radius of a barrel)
+            nObstacles[i].transform.localPosition = new Vector3(Random.Range(-5.75f, 5.75f), 0.05f, Random.Range(i * (trackLength / nObstacles.Count) + 0.4f, (i + 1) * (trackLength / nObstacles.Count) - 0.4f)); //x position is random on the road, y position is ground level, z position is within the length of a piece of track (0.4f is the approximate radius of a barrel)
             nObstacles[i].SetActive(true);
         }
     }
@@ -62,7 +64,7 @@ public class Track : MonoBehaviour
         {
             float maxZP = minZP + 5f;
             float randomZP = Random.Range(minZP, maxZP);
-            newMoney[i].transform.localPosition = new Vector3(Random.Range(-5.75f, 5.75f), 1, randomZP); //x position is random on the road, y position is just above ground level, z position is within the length (80f) of a piece of track
+            newMoney[i].transform.localPosition = new Vector3(Random.Range(-5.75f, 5.75f), 1, randomZP); //x position is random on the road, y position is just above ground level, z position is within the length of a piece of track
             minZP = randomZP + 3;
             newMoney[i].SetActive(true);
         }
@@ -91,7 +93,7 @@ public class Track : MonoBehaviour
                 }
             }
             other.GetComponent<Car>().IncreaseSpeed(); //the car speeds up after reaching the end of a piece of track
-            transform.position = new Vector3(0, 0, transform.position.z + 80 * 2); //80 is the length of a track; move the track section to the end after the player has traversed it so they can keep driving forever
+            transform.position = new Vector3(0, 0, transform.position.z + trackLength * 2); //move the track section to the end after the player has traversed it so they can keep driving forever
             LayoutObstacles(); //re-randomize the location of the barrel obstacles
             LayoutMoney(); //re-randomize the location of the coins
         }
