@@ -11,7 +11,7 @@ public class Car : MonoBehaviour
     public float collisionTime;
     public GameObject model, CoinReminder, CollideReminder, ControlReminder, SpeedReminder;
     public int currentLife = 3; //maximum number of lives; can be modified within Unity, but only the last three lives will be shown in the upper left corner
-    private bool collided = false, firstcoin = true;
+    private bool collided = false;
     static int collidedValue;
     private UIManager uiManager;
     private double controlsTimer = 0, collideReminderTimer = 0;
@@ -88,11 +88,11 @@ public class Car : MonoBehaviour
 
         if (Input.GetButton("Fire1") && speed > minSpeed) //ctrl
         {
-            speed = speed - 1f;
+            speed -= 1;
         }
         if (Input.GetButton("Fire2") && speed < maxSpeed) //Alt; not else if because if both ctrl and alt are pressed, it is assumed the user wants to leave speed as is
         {
-            speed = speed + 1f;
+            speed += 1;
         }
     }
 
@@ -100,10 +100,9 @@ public class Car : MonoBehaviour
     {
         if (other.tag == "Money")
         {
-            if (firstcoin && SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Tutorial")) //tutorial mode doesn't have a coin reminder
+            if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Tutorial")) //tutorial mode doesn't have a coin reminder
             {
                 CoinReminder.SetActive(false);
-                firstcoin = false;
             }
             tickSource.PlayOneShot(audio1, 0.2f);
             money++;
@@ -159,7 +158,7 @@ public class Car : MonoBehaviour
 
     private void OnCollisionEnter(Collision collisionInfo) //collision detection
     {
-        if (collided)
+        if (collided) //while collided, don't register another collision
         {
             return;
         }
@@ -194,7 +193,8 @@ public class Car : MonoBehaviour
             else //in sandbox mode
             {
                 //speed = minSpeed; //could set speed back to the lower bound
-                speed -= 5; //could decrement the speed by a constant (arbitrary) amount
+                speed -= 2; //could decrement the speed by a constant (arbitrary) amount
+                //speed -= 0.1f * (speed - minSpeed); //could decrement the speed by some function
                 if (speed < minSpeed)
                 {
                     speed = minSpeed;

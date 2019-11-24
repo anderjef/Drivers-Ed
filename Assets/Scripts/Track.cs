@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class Track : MonoBehaviour
 {
-    public GameObject[] obstacles; //there are five obstacle (barrel) prefabs hence an array
+    public GameObject[] obstacles; //there are nine obstacle (barrel) prefabs hence an array
     public GameObject money; //there is only one money prefab
     public Vector2 numObstacles, amountOfMoney; //can be modified within Unity; note that a numObstacles.y > trackLength / diameter of barrel (which is approximately 0.8f) creates the chance for barrels to be too close to each other (such that they merge)
     public int tutorialNum = 0;

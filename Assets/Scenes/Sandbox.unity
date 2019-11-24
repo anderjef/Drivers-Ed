@@ -346,6 +346,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7749393044674690617, guid: 81a153918d750d24ca0cc299a2727453,
+        type: 3}
+      propertyPath: numObstacles.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7749393044674690617, guid: 81a153918d750d24ca0cc299a2727453,
+        type: 3}
+      propertyPath: numObstacles.y
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 8432384062970123436, guid: 81a153918d750d24ca0cc299a2727453,
         type: 3}
       propertyPath: m_StaticEditorFlags
@@ -5933,6 +5943,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7749393044674690617, guid: 81a153918d750d24ca0cc299a2727453,
+        type: 3}
+      propertyPath: numObstacles.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7749393044674690617, guid: 81a153918d750d24ca0cc299a2727453,
+        type: 3}
+      propertyPath: numObstacles.y
+      value: 30
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 81a153918d750d24ca0cc299a2727453, type: 3}
 --- !u!1 &993959008
@@ -8346,6 +8366,26 @@ PrefabInstance:
       propertyPath: SpeedReminder
       value: 
       objectReference: {fileID: 1725820047}
+    - target: {fileID: 4432261999487713434, guid: 1b307d701534fbd40ba27aba02961d17,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5971360266471415522, guid: 1b307d701534fbd40ba27aba02961d17,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4432261999487713428, guid: 1b307d701534fbd40ba27aba02961d17,
+        type: 3}
+      propertyPath: m_Constraints
+      value: 126
+      objectReference: {fileID: 0}
+    - target: {fileID: 4432261998841482303, guid: 1b307d701534fbd40ba27aba02961d17,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4432262000027738163, guid: 1b307d701534fbd40ba27aba02961d17,
         type: 3}
       propertyPath: m_StaticEditorFlags
@@ -8372,11 +8412,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4432262000027738167, guid: 1b307d701534fbd40ba27aba02961d17,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4432261998841482303, guid: 1b307d701534fbd40ba27aba02961d17,
         type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
