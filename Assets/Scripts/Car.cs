@@ -71,7 +71,7 @@ public class Car : MonoBehaviour
             return;
         }
 
-        Vector3 carMove = new Vector3(Input.GetAxisRaw("Horizontal") * minSpeed * Time.deltaTime, 0, speed * Time.deltaTime); //z is forward
+        Vector3 carMove = new Vector3(Input.GetAxisRaw("Horizontal") * maxSpeed * Time.deltaTime / 3, 0.7f - this.transform.localPosition.y, speed * Time.deltaTime); //y is kept at 0.7, z is forward
         if (this.transform.localPosition.x + carMove.x > 5) //setting left and right boundaries
         {
             carMove.x = 5 - this.transform.localPosition.x;
@@ -80,19 +80,15 @@ public class Car : MonoBehaviour
         {
             carMove.x = -5 - this.transform.localPosition.x;
         }
-        if (this.transform.localPosition.y != 0.7)
-        {
-            carMove.y = 0.7f - this.transform.localPosition.y;
-        }
         controller.Move(carMove);
 
         if (Input.GetButton("Fire1") && speed > minSpeed) //ctrl
         {
-            speed -= 1;
+            speed--;
         }
         if (Input.GetButton("Fire2") && speed < maxSpeed) //Alt; not else if because if both ctrl and alt are pressed, it is assumed the user wants to leave speed as is
         {
-            speed += 1;
+            speed++;
         }
     }
 
