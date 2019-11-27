@@ -77,6 +77,10 @@ public class Track : MonoBehaviour
     {
         if (other.CompareTag("Car")) //there is a box collider at the end of each section of track, that when it detects a collision with the car, it moves the section of track just completed to after the other piece of track and reinitializes the obstacles and money on it
         {
+            if (this.gameObject.name == "Track 3") //Track 3 is used to cover up a graphical bug that occurs with occlusion culling and the car reaching the end of the second track; in order for this to work properly though, occlusion culling must be baked with Track 3 turned off in the editor (and after it's baked, Track 3 is set active)
+            {
+                this.gameObject.SetActive(false);
+            }
             if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Tutorial"))
             {
                 tutorialNum++;
@@ -100,5 +104,10 @@ public class Track : MonoBehaviour
             LayoutObstacles(); //re-randomize the location of the barrel obstacles
             LayoutMoney(); //re-randomize the location of the coins
         }
+    }
+
+    public void GoBackToMenu()
+    {
+        GameManager.gameManager.GameEnd(); //return to main menu once tutorial is over
     }
 }
