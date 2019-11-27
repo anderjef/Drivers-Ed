@@ -260,6 +260,11 @@ public class Car : MonoBehaviour
         //this.GetComponent<MeshCollider>().sharedMesh = (Mesh)AssetDatabase.LoadAssetAtPath("Assets/Racing Cars Pack 1/FBXs/Car" + carChoice.ToString() + ".fbx", typeof(Mesh)); //get the mesh (for the mesh collider) corresponding to the chosen car //assetdatabase cannot be built
     }
 
+    public int getMoney()
+    {
+        return this.money;
+    }
+
     public void GoBackToMenu()
     {
         GameManager.gameManager.GameEnd(); //return to main menu once all lives are lost

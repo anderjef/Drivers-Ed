@@ -1,3 +1,3 @@
 High score: 66
-Difficulty: 15.22222
-Car model: 4
+Difficulty: 18
+Car model: 3

@@ -155,6 +155,7 @@ public class UIManager : MonoBehaviour
 
     public void QuitToMenu()
     {
+        WriteHighScoreToTextFile(car.getMoney()); //so it is possible to achieve a high score then quit that game but have the high score saved
         GameManager.gameManager.GameEnd(); //quit button returns to menu
     }
 

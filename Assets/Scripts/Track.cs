@@ -101,9 +101,4 @@ public class Track : MonoBehaviour
             LayoutMoney(); //re-randomize the location of the coins
         }
     }
-
-    public void BackToMenu()
-    {
-        GameManager.gameManager.GameEnd(); //return to main menu once all lives are lost
-    }
 }
