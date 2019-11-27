@@ -43,7 +43,7 @@ public class Track : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     void LayoutObstacles() //spawn obstacles
@@ -59,17 +59,17 @@ public class Track : MonoBehaviour
 
     void LayoutMoney()  //spawn money //FIXME: money spawns too far off track and don't have money collide with barrels if that's not too much to ask
     {
-        float minZP = 10f;
+        float minZP = 10f, randomZP;
         for (int i = 0; i < newMoney.Count; ++i)
         {
-            float maxZP = minZP + 5f;
-            float randomZP = Random.Range(minZP, maxZP);
-            if (randomZP <= trackLength) //FIXME: temporary fix of money spawning outside of track's range
+            randomZP = Random.Range(minZP, minZP + 5f);
+            if (randomZP > trackLength) //FIXME: temporary fix of money spawning outside of track's range
             {
-                newMoney[i].transform.localPosition = new Vector3(Random.Range(-5.75f, 5.75f), 1, randomZP); //x position is random on the road, y position is just above ground level, z position is within the length of a piece of track
-                minZP = randomZP + 3;
-                newMoney[i].SetActive(true);
+                break;
             }
+            newMoney[i].transform.localPosition = new Vector3(Random.Range(-5.75f, 5.75f), 1, randomZP); //x position is random on the road, y position is just above ground level, z position is within the length of a piece of track
+            newMoney[i].SetActive(true);
+            minZP = randomZP + 3;
         }
     }
 

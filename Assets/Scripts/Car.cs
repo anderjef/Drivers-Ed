@@ -10,7 +10,7 @@ public class Car : MonoBehaviour
     public float speed, minSpeed = 10f, maxSpeed = 30f; //can be modified within Unity
     public float collisionTime;
     public GameObject model, CoinReminder, CollideReminder, ControlReminder, SpeedReminder;
-    public int currentLife = 3; //maximum number of lives; can be modified within Unity, but only the last three lives will be shown in the upper left corner
+    public int currentLife = 3; //total number of lives; can be modified within Unity, but only the last three lives will be shown in the upper left corner
     private bool collided = false;
     static int collidedValue;
     private UIManager uiManager;
@@ -18,7 +18,7 @@ public class Car : MonoBehaviour
     private int money;
     AudioSource tickSource;
     AudioSource carRev;
-    public AudioClip audio1, audio2, audio3;
+    private AudioClip audio1, audio2, audio3;
 
     // Start is called before the first frame update
     void Start()
@@ -39,6 +39,7 @@ public class Car : MonoBehaviour
         audio2 = ticksources[1].clip;
         audio3 = ticksources[2].clip;
         carRev = ticksources[3];
+        this.updateCarModel((int)uiManager.carModel.value);
     }
 
     // Update is called once per frame
@@ -176,6 +177,10 @@ public class Car : MonoBehaviour
                 speed = 0; //briefly (or permanently) freeze the player so they can register they lost a life
                 if (currentLife <= 0)
                 {
+                    if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Game"))
+                    {
+                        uiManager.WriteHighScoreToTextFile(money); //score and settings are saved upon death
+                    }
                     carRev.mute = true;
                     tickSource.PlayOneShot(audio3, 2f);
                     uiManager.gameOverPanel.SetActive(true);
@@ -207,14 +212,14 @@ public class Car : MonoBehaviour
         //float currentCollision = 1f;
         //float lastCollision = 0;
         //float collisionPeriod = 0.1f;
-        //bool enabled = false;
+        bool enabled = false;
 
         yield return new WaitForSeconds(1f); //pause for a second
         speed = minSpeed; //when the car resumes motion, its speed is returned to the minimum/starting speed
-        /*while (timer < time && collided)
-        {
+        //while (timer < time && collided)
+        //{
             model.SetActive(enabled);
-            yield return null;
+            /*yield return null;
             timer += Time.deltaTime;
             lastCollision += Time.deltaTime;
             if (collisionPeriod < lastCollision)
@@ -223,8 +228,8 @@ public class Car : MonoBehaviour
                 currentCollision = 1f - currentCollision;
                 enabled = !enabled;
             }
-        }
-        model.SetActive(true);*/
+        }*/
+        model.SetActive(true);
         collided = false;
     }
 
@@ -251,6 +256,7 @@ public class Car : MonoBehaviour
             this.transform.Find("Car" + i.ToString()).gameObject.SetActive(false);
         }
         this.transform.Find("Car" + carChoice.ToString()).gameObject.SetActive(true);
+        model = this.transform.Find("Car" + carChoice.ToString()).gameObject;
         //this.GetComponent<MeshCollider>().sharedMesh = (Mesh)AssetDatabase.LoadAssetAtPath("Assets/Racing Cars Pack 1/FBXs/Car" + carChoice.ToString() + ".fbx", typeof(Mesh)); //get the mesh (for the mesh collider) corresponding to the chosen car //assetdatabase cannot be built
     }
 

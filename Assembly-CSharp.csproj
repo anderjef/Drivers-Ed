@@ -108,6 +108,7 @@
     <None Include="Assets\UTech\MG-Karting\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets\UTech\MG-Karting\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
     <None Include="Assets\UTech\MG-Karting\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />
+    <None Include="Assets\Text_Document.txt" />
     <None Include="Assets\UTech\MG-Karting\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
     <None Include="Assets\Simple city plain\Read_me.txt" />
     <None Include="Assets\UTech\MG-Karting\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />

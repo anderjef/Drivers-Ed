@@ -56,7 +56,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 800
   field of view: 59.678314
   orthographic: 0
   orthographic size: 5
@@ -214,9 +214,6 @@ MonoBehaviour:
   ControlReminder: {fileID: 0}
   SpeedReminder: {fileID: 0}
   currentLife: 3
-  audio1: {fileID: 0}
-  audio2: {fileID: 0}
-  audio3: {fileID: 0}
 --- !u!82 &4432261999487713431
 AudioSource:
   m_ObjectHideFlags: 0

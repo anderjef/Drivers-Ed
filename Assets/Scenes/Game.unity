@@ -2945,6 +2945,11 @@ PrefabInstance:
       propertyPath: SpeedReminder
       value: 
       objectReference: {fileID: 1725820047}
+    - target: {fileID: 4432261999487713428, guid: 1b307d701534fbd40ba27aba02961d17,
+        type: 3}
+      propertyPath: m_Constraints
+      value: 126
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1b307d701534fbd40ba27aba02961d17, type: 3}
 --- !u!1001 &779956652
