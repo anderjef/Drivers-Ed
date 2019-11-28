@@ -8,7 +8,7 @@ public class Car : MonoBehaviour
 {
     private CharacterController controller;
     public float speed, minSpeed = 10f, maxSpeed = 30f; //can be modified within Unity
-    public float collisionTime;
+    public float collisionTime = 0; //can be modified within Unity
     public GameObject model, CoinReminder, CollideReminder, ControlReminder, SpeedReminder;
     public int currentLife = 3; //total number of lives; can be modified within Unity, but only the last three lives will be shown in the upper left corner
     private bool collided = false;
@@ -67,7 +67,7 @@ public class Car : MonoBehaviour
             }
         }
 
-        if (collided || uiManager.gameOverPanel.activeSelf) //don't update location (move car) or speed while collided or during the game over panel
+        if (uiManager.gameOverPanel.activeSelf) //don't update location (move car) or speed during the game over panel
         {
             return;
         }
@@ -155,15 +155,14 @@ public class Car : MonoBehaviour
 
     private void OnCollisionEnter(Collision collisionInfo) //collision detection
     {
-        if (collided) //while collided, don't register another collision
+        if (collided) //while collided, don't register another collision; grant the player temporary invincibility so they can register that they lost a life
         {
             return;
         }
         if (collisionInfo.collider.tag == "Obstacle")
         {
             tickSource.PlayOneShot(audio2, 0.6f);
-            collideReminderTimer += Time.deltaTime;
-            if (collideReminderTimer == 0) //only display the collider reminder once
+            if (collideReminderTimer == 0) //only display the collider reminder once; collideReminderTimer is updated in the Update function
             {
                 CollideReminder.SetActive(true);
             }
@@ -175,7 +174,7 @@ public class Car : MonoBehaviour
             uiManager.UpdateLives(currentLife); //display new life count
             if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Sandbox")) //sandbox doesn't even slow down for collisions, let alone lose the game
             {
-                speed = 0; //briefly (or permanently) freeze the player so they can register they lost a life
+                speed = minSpeed; //reset speed upon a collision
                 if (currentLife <= 0)
                 {
                     if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Game"))
@@ -189,7 +188,7 @@ public class Car : MonoBehaviour
                 }
                 else
                 {
-                    StartCoroutine(Collided(collisionTime));
+                    StartCoroutine(Collided());
                 }
             }
             else //in sandbox mode
@@ -206,30 +205,27 @@ public class Car : MonoBehaviour
         }
     }
 
-    IEnumerator Collided (double time) //collision detection
+    IEnumerator Collided () //collision response
     {
+        double time = this.collisionTime;
         collided = true;
-        //double timer = 0;
-        //float currentCollision = 1f;
-        //float lastCollision = 0;
-        //float collisionPeriod = 0.1f;
+        double timer = 0;
+        float lastCollision = 0;
+        float collisionPeriod = 0.1f;
         bool enabled = false;
 
-        yield return new WaitForSeconds(1f); //pause for a second
-        speed = minSpeed; //when the car resumes motion, its speed is returned to the minimum/starting speed
-        //while (timer < time && collided)
-        //{
+        while (timer < time && collided) //flash the car to show the player that they have lost a life and (temporarily) have invincibility
+        {
             model.SetActive(enabled);
-            /*yield return null;
+            yield return null;
             timer += Time.deltaTime;
             lastCollision += Time.deltaTime;
             if (collisionPeriod < lastCollision)
             {
                 lastCollision = 0;
-                currentCollision = 1f - currentCollision;
                 enabled = !enabled;
             }
-        }*/
+        }
         model.SetActive(true);
         collided = false;
     }

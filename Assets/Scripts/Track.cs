@@ -89,9 +89,16 @@ public class Track : MonoBehaviour
                         uiManager.MovementInstruction.SetActive(false);
                         uiManager.ObjectiveInstruction.SetActive(true);
                     }
-                    else if (this.gameObject.name == "Track 5") //only tutorial has a fifth track
+                    else if (this.gameObject.name == "Track 5") //only tutorial has a fifth track; tutorial over
                     {
-                        TutorialEnd();
+                        Car car = FindObjectOfType<Car>(); //to set the car's speed
+                        uiManager.gameOverPanel.SetActive(true);
+                        //Time.timeScale = 0 doesn't work here because Invoke needs to count down
+                        car.minSpeed = 0; //so car won't resume motion
+                        car.maxSpeed = 0; //so car won't resume motion
+                        car.speed = 0; //stop car
+                        Invoke("BackToMenu", 3f); //upon finishing the tutorial, display GameOverPanel for 3 seconds before returning to menu
+                        GameManager.gameManager.GameEnd(); //return to main menu once tutorial is over
                     }
                 }
             }
@@ -100,17 +107,5 @@ public class Track : MonoBehaviour
             LayoutObstacles(); //re-randomize the location of the barrel obstacles
             LayoutMoney(); //re-randomize the location of the coins
         }
-    }
-
-    public void TutorialEnd() //tutorial over
-    {
-        Car car = FindObjectOfType<Car>(); //to set the car's speed
-        uiManager.gameOverPanel.SetActive(true);
-        //Time.timeScale = 0 doesn't work here because Invoke needs to count down
-        car.minSpeed = 0; //so car won't resume motion
-        car.maxSpeed = 0; //so car won't resume motion
-        car.speed = 0; //stop car
-        Invoke("BackToMenu", 3f); //upon finishing the tutorial, display GameOverPanel for 3 seconds before returning to menu
-        GameManager.gameManager.GameEnd(); //return to main menu once tutorial is over
     }
 }

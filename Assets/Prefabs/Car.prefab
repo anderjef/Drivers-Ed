@@ -207,7 +207,7 @@ MonoBehaviour:
   speed: 15
   minSpeed: 10
   maxSpeed: 30
-  collisionTime: 0
+  collisionTime: 1
   model: {fileID: 0}
   CoinReminder: {fileID: 0}
   CollideReminder: {fileID: 0}
