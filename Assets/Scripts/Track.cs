@@ -82,10 +82,17 @@ public class Track : MonoBehaviour
             if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Tutorial") || this.gameObject.name == "Track 3") //Track 3 is used to cover up a graphical bug that occurs with occlusion culling and the car reaching the end of the second track; in order for this to work properly though, occlusion culling must be baked with Track 3 turned off in the editor (and after it's baked, Track 3 is set active)
             {
                 this.gameObject.SetActive(false);
-                if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Tutorial") && this.gameObject.name == "Track 1")
+                if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Tutorial"))
                 {
-                    uiManager.MovementInstruction.SetActive(false);
-                    uiManager.ObjectiveInstruction.SetActive(true);
+                    if (this.gameObject.name == "Track 1")
+                    {
+                        uiManager.MovementInstruction.SetActive(false);
+                        uiManager.ObjectiveInstruction.SetActive(true);
+                    }
+                    else if (this.gameObject.name == "Track 5") //only tutorial has a fifth track
+                    {
+                        TutorialEnd();
+                    }
                 }
             }
             other.GetComponent<Car>().IncreaseSpeed(); //the car speeds up after reaching the end of a piece of track
