@@ -162,6 +162,7 @@ public class Car : MonoBehaviour
         if (collisionInfo.collider.tag == "Obstacle")
         {
             tickSource.PlayOneShot(audio2, 0.6f);
+            collideReminderTimer += Time.deltaTime;
             if (collideReminderTimer == 0) //only display the collider reminder once
             {
                 CollideReminder.SetActive(true);

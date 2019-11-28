@@ -8,10 +8,8 @@ public class Track : MonoBehaviour
     public GameObject[] obstacles; //there are nine obstacle (barrel) prefabs hence an array
     public GameObject money; //there is only one money prefab
     public Vector2 numObstacles, amountOfMoney; //can be modified within Unity; note that a numObstacles.y > trackLength / diameter of barrel (which is approximately 0.8f) creates the chance for barrels to be too close to each other (such that they merge)
-    public int tutorialNum = 0;
     private UIManager uiManager;
-    private Car car; //used to set the car's speed at game over in tutorial mode
-
+    
     [HideInInspector]
     public List<GameObject> nObstacles, newMoney;
 
@@ -20,7 +18,6 @@ public class Track : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        car = FindObjectOfType<Car>();
         uiManager = FindObjectOfType<UIManager>();
         uiManager.ObjectiveInstruction.SetActive(false); //(tutorial mode) starts off with no objective instructions
 
@@ -38,6 +35,11 @@ public class Track : MonoBehaviour
 
         //LayoutObstacles(); //not laying out the obstacles here leaves the first two tracks devoid of obstacles so the user can react to the game starting
         //LayoutMoney(); //not laying out the money here leaves the first two tracks devoid of money so the user can react to the game starting
+        if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Tutorial"))
+        {
+            LayoutObstacles();
+            LayoutMoney();
+        }
     }
 
     // Update is called once per frame
@@ -77,26 +79,13 @@ public class Track : MonoBehaviour
     {
         if (other.CompareTag("Car")) //there is a box collider at the end of each section of track, that when it detects a collision with the car, it moves the section of track just completed to after the other piece of track and reinitializes the obstacles and money on it
         {
-            if (this.gameObject.name == "Track 3") //Track 3 is used to cover up a graphical bug that occurs with occlusion culling and the car reaching the end of the second track; in order for this to work properly though, occlusion culling must be baked with Track 3 turned off in the editor (and after it's baked, Track 3 is set active)
+            if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Tutorial") || this.gameObject.name == "Track 3") //Track 3 is used to cover up a graphical bug that occurs with occlusion culling and the car reaching the end of the second track; in order for this to work properly though, occlusion culling must be baked with Track 3 turned off in the editor (and after it's baked, Track 3 is set active)
             {
                 this.gameObject.SetActive(false);
-            }
-            if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Tutorial"))
-            {
-                tutorialNum++;
-                if (tutorialNum == 1) //after the car reaches the end of the first piece of track
+                if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Tutorial") && this.gameObject.name == "Track 1")
                 {
                     uiManager.MovementInstruction.SetActive(false);
                     uiManager.ObjectiveInstruction.SetActive(true);
-                }
-                else if (tutorialNum == 3) //the third time the car reaches the end of the first track
-                {
-                    uiManager.gameOverPanel.SetActive(true);
-                    //Time.timeScale = 0 doesn't work here because Invoke needs to count down
-                    car.minSpeed = 0; //so car won't resume motion
-                    car.maxSpeed = 0; //so car won't resume motion
-                    car.speed = 0; //stop car
-                    Invoke("BackToMenu", 3f); //upon finishing the tutorial, display GameOverPanel for 3 seconds before returning to menu
                 }
             }
             other.GetComponent<Car>().IncreaseSpeed(); //the car speeds up after reaching the end of a piece of track
@@ -106,8 +95,15 @@ public class Track : MonoBehaviour
         }
     }
 
-    public void GoBackToMenu()
+    public void TutorialEnd() //tutorial over
     {
+        Car car = FindObjectOfType<Car>(); //to set the car's speed
+        uiManager.gameOverPanel.SetActive(true);
+        //Time.timeScale = 0 doesn't work here because Invoke needs to count down
+        car.minSpeed = 0; //so car won't resume motion
+        car.maxSpeed = 0; //so car won't resume motion
+        car.speed = 0; //stop car
+        Invoke("BackToMenu", 3f); //upon finishing the tutorial, display GameOverPanel for 3 seconds before returning to menu
         GameManager.gameManager.GameEnd(); //return to main menu once tutorial is over
     }
 }
