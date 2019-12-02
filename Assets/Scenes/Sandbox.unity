@@ -12576,11 +12576,6 @@ PrefabInstance:
       propertyPath: minSpeed
       value: 10
       objectReference: {fileID: 0}
-    - target: {fileID: 4432261999487713428, guid: 1b307d701534fbd40ba27aba02961d17,
-        type: 3}
-      propertyPath: m_Constraints
-      value: 126
-      objectReference: {fileID: 0}
     - target: {fileID: 4432261999487713434, guid: 1b307d701534fbd40ba27aba02961d17,
         type: 3}
       propertyPath: m_Enabled

@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1425972760385834756
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2679728091854828461}
+  - component: {fileID: 824631261972145545}
+  m_Layer: 0
+  m_Name: Obstacles
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2679728091854828461
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1425972760385834756}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &824631261972145545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1425972760385834756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 569fb80ecc5aab54f960fb22c525f575, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  barrelPrefabs:
+  - {fileID: 5184185200357008499, guid: bb4c7b3533a6c314a85aed1fb5ac8f5d, type: 3}
+  - {fileID: 2435173265754626760, guid: 752ce70913bc70c459ba8783cac1c14d, type: 3}
+  - {fileID: 6243714179507657401, guid: 86d7a466ecfbd1846a362049452a5a5c, type: 3}
+  - {fileID: 1422693951151177425, guid: ca93d44b464aa5f4d85521528340a522, type: 3}
+  - {fileID: 6672281207429529187, guid: ba6b9b9456d729b4c962c6006967bc64, type: 3}
+  - {fileID: 4590139659276028920, guid: b80518493bf58534a80bb3b4273374e8, type: 3}
+  - {fileID: 8969845112270378068, guid: 0c401efa0f5d2db45a0752a7840bcfae, type: 3}
+  - {fileID: 6439473644843958468, guid: 561b10cc5d85f0d469f4cc2ac9d853a6, type: 3}
+  - {fileID: 3675890366501585926, guid: d56a5e9f7e9a23a4a9b445cf99f70824, type: 3}
+  moneyPrefab: {fileID: 2142074345883392057, guid: 10f2326e14d4b634ba690206717f8b72,
+    type: 3}
+  distBetweenObjects: 2.8
+  numObstacles: 40
+  numMoney: 60
+  dist: 80
+  obstacles: []
+  money: []

@@ -19,6 +19,7 @@ public class Car : MonoBehaviour
     AudioSource tickSource;
     AudioSource carRev;
     private AudioClip audio1, audio2, audio3;
+    public float sensitivity = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -72,7 +73,7 @@ public class Car : MonoBehaviour
             return;
         }
 
-        Vector3 carMove = new Vector3(Input.GetAxisRaw("Horizontal") * maxSpeed * Time.deltaTime / 3, 0.7f - this.transform.localPosition.y, speed * Time.deltaTime); //y is kept at 0.7, z is forward
+        Vector3 carMove = new Vector3(Input.GetAxisRaw("Horizontal") * sensitivity * maxSpeed * Time.deltaTime / 3, 0.7f - this.transform.localPosition.y, speed * Time.deltaTime); //y is kept at 0.7, z is forward
         if (this.transform.localPosition.x + carMove.x > 5) //setting left and right boundaries
         {
             carMove.x = 5 - this.transform.localPosition.x;
@@ -82,6 +83,9 @@ public class Car : MonoBehaviour
             carMove.x = -5 - this.transform.localPosition.x;
         }
         controller.Move(carMove);
+
+        //Debug.Log(Input.mousePosition.x); //FIXME
+        //Debug.Log(Screen.width); //FIXME
 
         if (Input.GetButton("Fire1") && speed > minSpeed) //ctrl
         {
@@ -174,9 +178,9 @@ public class Car : MonoBehaviour
             uiManager.UpdateLives(currentLife); //display new life count
             if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Sandbox")) //sandbox doesn't even slow down for collisions, let alone lose the game
             {
-                speed = minSpeed; //reset speed upon a collision
                 if (currentLife <= 0)
                 {
+                    speed = 0; //stop the car
                     if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Game"))
                     {
                         uiManager.WriteHighScoreToTextFile(money); //score and settings are saved upon death
@@ -188,13 +192,14 @@ public class Car : MonoBehaviour
                 }
                 else
                 {
+                    speed = minSpeed; //reset speed upon a collision
                     StartCoroutine(Collided());
                 }
             }
             else //in sandbox mode
             {
                 //speed = minSpeed; //could set speed back to the lower bound
-                speed -= 2; //could decrement the speed by a constant (arbitrary) amount
+                speed -= 3; //could decrement the speed by a constant (arbitrary) amount
                 //speed -= 0.1f * (speed - minSpeed); //could decrement the speed by some function
                 if (speed < minSpeed)
                 {

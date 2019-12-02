@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Car.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
+    <Compile Include="Assets\Scripts\Obstacles.cs" />
     <Compile Include="Assets\Scripts\Track.cs" />
     <Compile Include="Assets\Scripts\UIManager.cs" />
     <Compile Include="Assets\UTech\MG-Karting\BasicAssets\Scripts\KartSystems\Inputs\GamepadInput.cs" />

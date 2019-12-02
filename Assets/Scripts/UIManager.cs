@@ -32,49 +32,49 @@ public class UIManager : MonoBehaviour
             string inputText = System.IO.File.ReadAllText(@"Assets/Text_Document.txt");
             if (inputText.Substring(0, 12) == "High score: ")
             {
-                int i = 12; //get i past "High score: "
-                for (; inputText[i] != '\n'; ++i) {} //ignore the high score value
-                i++; //get past the newline character
-                if (inputText.Substring(i, 12) == "Difficulty: ")
+                int index = 12; //get index past "High score: "
+                for (; inputText[index] != '\n'; ++index) {} //ignore the high score value
+                index++; //get past the newline character
+                if (inputText.Substring(index, 12) == "Difficulty: ")
                 {
-                    i += 12; //get i past "Difficulty: "
+                    index += 12; //get index past "Difficulty: "
                     car.minSpeed = 0;
-                    for (; inputText[i] != '\n'; ++i)
+                    for (; inputText[index] != '\n'; ++index)
                     {
-                        if (inputText[i] != '.')
+                        if (inputText[index] != '.')
                         {
                             car.minSpeed *= 10; //because stored in decimal
-                            car.minSpeed += inputText[i] - 48; //- 48 because 0 in ASCII is 48
+                            car.minSpeed += inputText[index] - 48; //- 48 because 0 in ASCII is 48
                         }
                         else
                         {
                             break;
                         }
                     }
-                    if (inputText[i] == '.') //previous loop was broken out of
+                    if (inputText[index] == '.') //previous loop was broken out of
                     {
-                        i++; //get past the decimal character
+                        index++; //get past the decimal character
                         int mantissaDepth = 0;
-                        for (; inputText[i] != '\n'; ++i)
+                        for (; inputText[index] != '\n'; ++index)
                         {
                             mantissaDepth++;
-                            car.minSpeed += (inputText[i] - 48) / (10 * mantissaDepth); //- 48 because 0 in ASCII is 48
+                            car.minSpeed += (inputText[index] - 48) / (10 * mantissaDepth); //- 48 because 0 in ASCII is 48
                         }
                     }
                     startDifficulty.value = (car.minSpeed - 10) / 10; //set the starting slider (the slider in the pause menu is updated as that menu is opened)
-                    i++; //get past the newline character
-                    if (inputText.Substring(i, 11) == "Car model: ")
+                    index++; //get past the newline character
+                    if (inputText.Substring(index, 11) == "Car model: ")
                     {
-                        i += 11; //get i past "Car model: "
+                        index += 11; //get index past "Car model: "
                         int carChoice = 0;
-                        for (; inputText[i] != '\n'; ++i) //note that the text document of settings must end in a newline character
+                        for (; inputText[index] != '\n'; ++index) //note that the text document of settings must end in a newline character
                         {
                             carChoice *= 10; //because stored in decimal
-                            carChoice += inputText[i] - 48; //- 48 because 0 in ASCII is 48
+                            carChoice += inputText[index] - 48; //- 48 because 0 in ASCII is 48
                         }
                         carModel.value = carChoice; //set the slider
                         car.updateCarModel(carChoice); //set the car's model
-                        if (i != inputText.Length - 1) //there's extra information in the file which shouldn't affect anything
+                        if (index != inputText.Length - 1) //there's extra information in the file which shouldn't affect anything
                         {
                             Debug.Log("There's extra information in Text_Document.txt.");
                         }
