@@ -14,7 +14,7 @@ public class UIManager : MonoBehaviour
     public GameObject MovementInstruction, ObjectiveInstruction; //one overlay for movement instructions, one for objective information for tutorial mode
     private Car car;
     public Slider startDifficulty, difficulty; //used to modify the car's speed (and hence the game's difficulty)
-    public Slider sensitivity;
+    public Slider startSensitivity, sensitivity;
     public Slider carModel; //used to pick the car model
 
     // Start is called before the first frame update
@@ -94,6 +94,12 @@ public class UIManager : MonoBehaviour
     {
 
     }
+
+    public void updateStartSensitivity()
+    {
+        car.sensitivity = startSensitivity.value * 10 + 10;
+    }
+
     public void updateSensitivity()
     {
         car.sensitivity = sensitivity.value * 10 + 10;
