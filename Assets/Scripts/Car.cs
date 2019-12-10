@@ -11,7 +11,7 @@ public class Car : MonoBehaviour
     public float collisionTime = 0; //can be modified within Unity
     public GameObject model, CoinReminder, CollideReminder, ControlReminder, SpeedReminder;
     public int currentLife = 3; //total number of lives; can be modified within Unity, but only the last three lives will be shown in the upper left corner
-    private bool collided = false;
+    private bool collided = false, pauseWaiting = false;
     static int collidedValue;
     private UIManager uiManager;
     private double controlsTimer = 0, collideReminderTimer = 0;
@@ -47,6 +47,11 @@ public class Car : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (pauseWaiting || uiManager.pausePanel.activeSelf || uiManager.gameOverPanel.activeSelf) //don't update location (move car), speed, or really anything while paused or during the game over panel
+        {
+            return;
+        }
+
         if (CollideReminder.activeSelf) //only show collide reminder for five seconds
         {
             collideReminderTimer += Time.deltaTime;
@@ -69,11 +74,6 @@ public class Car : MonoBehaviour
             }
         }
 
-        if (uiManager.gameOverPanel.activeSelf) //don't update location (move car) or speed during the game over panel
-        {
-            return;
-        }
-
         mousex = Input.mousePosition.x; //get mouse x position
         if ((mousex >= Screen.width * 0.4) && (mousex <= Screen.width * 0.6)) //make middle buffer zone with no mouse input
         {
@@ -89,11 +89,15 @@ public class Car : MonoBehaviour
             mousex = mousex / Screen.width;
         }
         //Debug.Log("MOUSE: " + mousex/Screen.width + "          XPOS: " + Input.mousePosition.x + "     width: " + Screen.width);
-        Vector3 carMove = new Vector3(mousex * sensitivity * maxSpeed * Time.deltaTime / 3, 0.7f - this.transform.localPosition.y, speed * Time.deltaTime); //y is kept at 0.7, z is forward
+        Vector3 carMove = new Vector3(sensitivity * maxSpeed * Time.deltaTime / 3, 0.7f - this.transform.localPosition.y, speed * Time.deltaTime); //y is kept at 0.7, z is forward
         if (Input.GetAxis("Horizontal") != 0) //switch to keys mode
         {
-            carMove = new Vector3(Input.GetAxis("Horizontal") * sensitivity * maxSpeed * Time.deltaTime / 3, 0.7f - this.transform.localPosition.y, speed * Time.deltaTime); //y is kept at 0.7, z is forward
+            carMove.x *= Input.GetAxis("Horizontal");
 
+        }
+        else //use mouse input
+        {
+            carMove.x *= mousex;
         }
 
         if (this.transform.localPosition.x + carMove.x > 5) //setting left and right boundaries
@@ -113,6 +117,10 @@ public class Car : MonoBehaviour
         if (Input.GetButton("Fire2") && speed < maxSpeed) //Alt; not else if because if both ctrl and alt are pressed, it is assumed the user wants to leave speed as is
         {
             speed++;
+        }
+        if (Input.GetButton("Fire3")) //p to pause game
+        {
+            Invoke("PButtonPressed", 0.0f);
         }
     }
 
@@ -191,7 +199,7 @@ public class Car : MonoBehaviour
         }
     }
 
-    IEnumerator Collided () //collision response
+    IEnumerator Collided() //collision response
     {
         double time = this.collisionTime;
         collided = true;
@@ -214,6 +222,11 @@ public class Car : MonoBehaviour
         }
         model.SetActive(true);
         collided = false;
+    }
+
+    private void PButtonPressed()
+    {
+        uiManager.OpenPause();
     }
 
     public void IncreaseSpeed() //called every 80 or so units whenever the car reaches the end of a section of track

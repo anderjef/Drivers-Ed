@@ -40,14 +40,17 @@ public class GameManager : MonoBehaviour
         }
         //else if (gameManager != this)
         //{
-            //Destroy(gameObject); //was causing issues with reverting to a previous scene; the problem is now that every scene change keeps a GameManager object around
+            //Destroy(gameObject); //was causing issues with reverting to a previous scene
         //}
         DontDestroyOnLoad(gameManager);
     }
 
-    public void GameStart()
+    public void OpenMenu()
     {
-        SceneManager.LoadSceneAsync("Game", LoadSceneMode.Single);
+        //SceneManager.LoadSceneAsync("Menu"); //was causing problems
+        mainMenuPanel.SetActive(true); //show the main menu panel
+        optionsPanel.SetActive(false); //hide the options panel
+        accessibilityPanel.SetActive(false); //hide the accessibility panel
     }
 
     public void OpenOptions()
@@ -56,18 +59,15 @@ public class GameManager : MonoBehaviour
         optionsPanel.SetActive(true); //show the options panel
         mainMenuPanel.SetActive(false); //hide the main menu panel
     }
-
-    public void OpenMenu()
-    {
-        //SceneManager.LoadSceneAsync("Menu"); //was causing problems
-        mainMenuPanel.SetActive(true); //show the main menu panel
-        optionsPanel.SetActive(false); //hide the options panel
-        accessibilityPanel.SetActive(false);
-    }
     public void OpenAccessibility()
     {
         accessibilityPanel.SetActive(true);
         mainMenuPanel.SetActive(false);
+    }
+
+    public void GameStart()
+    {
+        SceneManager.LoadSceneAsync("Game", LoadSceneMode.Single);
     }
 
     public void TutorialStart()

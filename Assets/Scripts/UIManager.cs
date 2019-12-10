@@ -17,6 +17,7 @@ public class UIManager : MonoBehaviour
     public Slider startSensitivitySlider, sensitivitySlider;
     public Slider carModel; //used to pick the car model
     private bool[] reminders = { false, false, false, false };
+    private bool uiPauseWaiting;
 
     // Start is called before the first frame update
     void Start()
@@ -120,7 +121,7 @@ public class UIManager : MonoBehaviour
         }
         catch (Exception e) //the file cannot be read or there's something wrong with inputText so use the current settings
         {
-            Debug.Log(e.Message); //FIXME: gets an error
+            Debug.Log(e.Message);
         }
     }
 
