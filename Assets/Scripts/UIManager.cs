@@ -109,6 +109,11 @@ public class UIManager : MonoBehaviour
                                 Debug.Log("There's extra information in Text_Document.txt.");
                             }
                         }
+                        if (car.sensitivity < 0.8 || car.sensitivity > 1.2) //the something went wrong with loading it from the file so reset it to 1
+                        {
+                            car.sensitivity = 1;
+                            startSensitivitySlider.value = (car.sensitivity - 0.8f) / 0.4f; //set the starting slider (the slider in the pause menu is updated as that menu is opened)
+                        }
                     }
                 }
             }

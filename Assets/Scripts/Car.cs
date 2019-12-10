@@ -20,6 +20,7 @@ public class Car : MonoBehaviour
     AudioSource carRev;
     private AudioClip audio1, audio2, audio3;
     [HideInInspector] public float sensitivity = 1;
+    float mousex = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -73,7 +74,28 @@ public class Car : MonoBehaviour
             return;
         }
 
-        Vector3 carMove = new Vector3(Input.GetAxisRaw("Horizontal") * sensitivity * maxSpeed * Time.deltaTime / 3, 0.7f - this.transform.localPosition.y, speed * Time.deltaTime); //y is kept at 0.7, z is forward
+        mousex = Input.mousePosition.x; //get mouse x position
+        if ((mousex >= Screen.width * 0.4) && (mousex <= Screen.width * 0.6)) //make middle buffer zone with no mouse input
+        {
+            mousex = 0;
+        }
+        else if (mousex < (Screen.width * 0.4)) //left mouse movement
+        {
+            //mousex = Screen.width - mousex;
+            mousex = mousex / Screen.width * -1;
+        }
+        else if (mousex > (Screen.width * 0.6)) //right mouse movement
+        {
+            mousex = mousex / Screen.width;
+        }
+        //Debug.Log("MOUSE: " + mousex/Screen.width + "          XPOS: " + Input.mousePosition.x + "     width: " + Screen.width);
+        Vector3 carMove = new Vector3(mousex * sensitivity * maxSpeed * Time.deltaTime / 3, 0.7f - this.transform.localPosition.y, speed * Time.deltaTime); //y is kept at 0.7, z is forward
+        if (Input.GetAxis("Horizontal") != 0) //switch to keys mode
+        {
+            carMove = new Vector3(Input.GetAxis("Horizontal") * sensitivity * maxSpeed * Time.deltaTime / 3, 0.7f - this.transform.localPosition.y, speed * Time.deltaTime); //y is kept at 0.7, z is forward
+
+        }
+
         if (this.transform.localPosition.x + carMove.x > 5) //setting left and right boundaries
         {
             carMove.x = 5 - this.transform.localPosition.x;
