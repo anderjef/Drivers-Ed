@@ -32,12 +32,6 @@ public class GameManager : MonoBehaviour
         accessibilityPanel.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void Awake()
     {
         if (gameManager == null)

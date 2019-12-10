@@ -1,3 +1,4 @@
-High score: 1019115
-Difficulty: 10
-Car model: 7
+High score: 12
+Difficulty: 13
+Car model: 5
+Sensitivity: 1

@@ -19,8 +19,7 @@ public class Car : MonoBehaviour
     AudioSource tickSource;
     AudioSource carRev;
     private AudioClip audio1, audio2, audio3;
-    public float sensitivity = 1;
-    float mousex = 0;
+    [HideInInspector] public float sensitivity = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -73,27 +72,8 @@ public class Car : MonoBehaviour
         {
             return;
         }
-        mousex = Input.mousePosition.x; //get mouse x position
-        if ((mousex >= Screen.width * 0.4) && (mousex <= Screen.width * 0.6)) //make middle buffer zone with no mouse input
-        {
-            mousex = 0;
-        }
-        else if(mousex < (Screen.width * 0.4)) //left mouse movement
-        {
-            mousex = Screen.width - mousex;
-            mousex = mousex / Screen.width * -1;
-        }
-        else if(mousex > (Screen.width * 0.6)) //right mouse movement
-        {
-            mousex = mousex / Screen.width;
-        }
-        //Debug.Log("MOUSE: " + mousex/Screen.width + "          XPOS: " + Input.mousePosition.x + "     width: " + Screen.width);
-        Vector3 carMove = new Vector3(mousex * sensitivity * maxSpeed * Time.deltaTime / 3, 0.7f - this.transform.localPosition.y, speed * Time.deltaTime); //y is kept at 0.7, z is forward
-        if (Input.GetAxis("Horizontal") != 0) //switch to keys mode
-        {
-            carMove = new Vector3(Input.GetAxis("Horizontal") * sensitivity * maxSpeed * Time.deltaTime / 3, 0.7f - this.transform.localPosition.y, speed * Time.deltaTime); //y is kept at 0.7, z is forward
 
-        }
+        Vector3 carMove = new Vector3(Input.GetAxisRaw("Horizontal") * sensitivity * maxSpeed * Time.deltaTime / 3, 0.7f - this.transform.localPosition.y, speed * Time.deltaTime); //y is kept at 0.7, z is forward
         if (this.transform.localPosition.x + carMove.x > 5) //setting left and right boundaries
         {
             carMove.x = 5 - this.transform.localPosition.x;
@@ -103,9 +83,6 @@ public class Car : MonoBehaviour
             carMove.x = -5 - this.transform.localPosition.x;
         }
         controller.Move(carMove);
-
-        //Debug.Log(Input.mousePosition.x); //FIXME
-        //Debug.Log(Screen.width); //FIXME
 
         if (Input.GetButton("Fire1") && speed > minSpeed) //ctrl
         {
@@ -119,7 +96,7 @@ public class Car : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Money")
+        if (other.CompareTag("Money"))
         {
             if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Tutorial")) //tutorial mode doesn't have a coin reminder
             {
@@ -128,51 +105,10 @@ public class Car : MonoBehaviour
             tickSource.PlayOneShot(audio1, 0.2f);
             money++;
             uiManager.UpdateMoney(money);
-            //other.transform.parent.gameObject.SetActive(false); //if the money prefab had a parent object (money holder)
-            other.transform.gameObject.SetActive(false);
-
+            if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Experiment")) //FIXME: temporary while experiment is separate
             {
-                /*
-                if (other.CompareTag("Money"))
-                {
-                    if (firstcoin && SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Tutorial")) //tutorial mode doesn't have a coin reminder
-                    {
-                        CoinReminder.SetActive(false);
-                        firstcoin = false;
-                    }
-                    tickSource.PlayOneShot(audio1, 0.2f);
-                    money++;
-                    uiManager.UpdateMoney(money);
-                    //other.transform.parent.gameObject.SetActive(false); //if the money prefab had a parent object (money holder)
-                    other.transform.gameObject.SetActive(false);
-                }
-                if (collided)
-                {
-                    return;
-                }
-                if (other.CompareTag("Obstacle")) //not else if because it is possible to collide with both a coin and barrel at the same time
-                {
-                    tickSource.PlayOneShot(audio2, 0.6f);
-                    if (collideReminderTimer == 0) //only display the collider reminder once
-                    {
-                        CollideReminder.SetActive(true);
-                    }
-                    currentLife--;
-                    uiManager.UpdateLives(currentLife); //display new life count
-                    speed = 0; //briefly (or permanently) freeze the player so they can register they lost a life
-                    if (currentLife <= 0 && SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Sandbox")) //can't lose in sandbox mode
-                    {
-                        carRev.mute = true;
-                        tickSource.PlayOneShot(audio3, 2f);
-                        uiManager.gameOverPanel.SetActive(true);
-                        Invoke("GoBackToMenu", 3f); //upon losing all lives, display GameOverPanel for 3 seconds before returning to menu
-                    }
-                    else
-                    {
-                        StartCoroutine(Collided(collisionTime));
-                    }
-                }
-                */
+                //other.transform.parent.gameObject.SetActive(false); //if the money prefab had a parent object (money holder)
+                other.transform.gameObject.SetActive(false);
             }
         }
     }
@@ -183,7 +119,7 @@ public class Car : MonoBehaviour
         {
             return;
         }
-        if (collisionInfo.collider.tag == "Obstacle")
+        if (collisionInfo.collider.CompareTag("Obstacle"))
         {
             tickSource.PlayOneShot(audio2, 0.6f);
             if (collideReminderTimer == 0) //only display the collider reminder once; collideReminderTimer is updated in the Update function
@@ -200,14 +136,17 @@ public class Car : MonoBehaviour
             {
                 if (currentLife <= 0)
                 {
-                    speed = 0; //stop the car
                     if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Game"))
                     {
-                        uiManager.WriteHighScoreToTextFile(money); //score and settings are saved upon death
+                        uiManager.SaveSettingsAndHighScoreToTextFile(money); //score and settings are saved upon death
                     }
                     carRev.mute = true;
                     tickSource.PlayOneShot(audio3, 2f);
                     uiManager.gameOverPanel.SetActive(true);
+                    CoinReminder.SetActive(false);
+                    CollideReminder.SetActive(false);
+                    ControlReminder.SetActive(false);
+                    SpeedReminder.SetActive(false);
                     Invoke("GoBackToMenu", 3f); //upon losing all lives, display GameOverPanel for 3 seconds before returning to menu
                 }
                 else

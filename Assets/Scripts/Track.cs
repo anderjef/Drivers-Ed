@@ -42,12 +42,6 @@ public class Track : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     void LayoutObstacles() //spawn obstacles
     {
         for (int i = 0; i < nObstacles.Count; ++i)
@@ -98,7 +92,6 @@ public class Track : MonoBehaviour
                         car.maxSpeed = 0; //so car won't resume motion
                         car.speed = 0; //stop car
                         Invoke("BackToMenu", 3f); //upon finishing the tutorial, display GameOverPanel for 3 seconds before returning to menu
-                        GameManager.gameManager.GameEnd(); //return to main menu once tutorial is over
                     }
                 }
             }
@@ -107,5 +100,10 @@ public class Track : MonoBehaviour
             LayoutObstacles(); //re-randomize the location of the barrel obstacles
             LayoutMoney(); //re-randomize the location of the coins
         }
+    }
+
+    public void BackToMenu()
+    {
+        GameManager.gameManager.GameEnd(); //return to main menu once tutorial is over
     }
 }

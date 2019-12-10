@@ -3235,7 +3235,9 @@ MonoBehaviour:
     menus and installers\r\n8. Ensure sound / music choices for key objects / events
     are distinct from each other\r\n9. Use distinct sound / music design for all objects
     and events\r\n10. Offer a wide choice of difficulty levels\r\n11. Provide details
-    of accessibility features in-game\r\n12. Tutorial (instructions)\r\n"
+    of accessibility features in-game\r\n12. Tutorial (instructions)\r\n13. Ensure
+    that all settings are saved/remembered\n14. Include an option to adjust the sensitivity
+    of controls\n15. Support more than one input device"
 --- !u!222 &1466175007
 CanvasRenderer:
   m_ObjectHideFlags: 0
