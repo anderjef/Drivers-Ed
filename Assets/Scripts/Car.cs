@@ -20,7 +20,8 @@ public class Car : MonoBehaviour
     AudioSource carRev;
     private AudioClip audio1, audio2, audio3;
     [HideInInspector] public float sensitivity = 1;
-    float mousex = 0;
+    private float mousex = 0;
+    private bool useMouse = true;
 
     // Start is called before the first frame update
     void Start()
@@ -74,30 +75,38 @@ public class Car : MonoBehaviour
             }
         }
 
-        mousex = Input.mousePosition.x; //get mouse x position
-        if ((mousex >= Screen.width * 0.4) && (mousex <= Screen.width * 0.6)) //make middle buffer zone with no mouse input
+        if (Input.GetButton("Fire3")) //m key on the keyboard changes the device input method to the mouse (which is also default so pressing the p key isn't necessary upon game launch)
         {
-            mousex = 0;
+            useMouse = true;
         }
-        else if (mousex < (Screen.width * 0.4)) //left mouse movement
+        if (Input.GetAxis("Horizontal") != 0) //using the keyboard automatically changes the device input method to the keyboard
         {
-            //mousex = Screen.width - mousex;
-            mousex = mousex / Screen.width * -1;
+            useMouse = false;
         }
-        else if (mousex > (Screen.width * 0.6)) //right mouse movement
-        {
-            mousex = mousex / Screen.width;
-        }
-        //Debug.Log("MOUSE: " + mousex/Screen.width + "          XPOS: " + Input.mousePosition.x + "     width: " + Screen.width);
+
         Vector3 carMove = new Vector3(sensitivity * maxSpeed * Time.deltaTime / 3, 0.7f - this.transform.localPosition.y, speed * Time.deltaTime); //y is kept at 0.7, z is forward
-        if (Input.GetAxis("Horizontal") != 0) //switch to keys mode
+        if (useMouse)
+        {
+            mousex = Input.mousePosition.x; //get mouse x position
+            if ((mousex >= Screen.width * 0.4) && (mousex <= Screen.width * 0.6)) //make middle buffer zone with no mouse input
+            {
+                mousex = 0;
+            }
+            else if (mousex < (Screen.width * 0.4)) //left mouse movement
+            {
+                //mousex = Screen.width - mousex;
+                mousex = mousex / Screen.width * -1;
+            }
+            else if (mousex > (Screen.width * 0.6)) //right mouse movement
+            {
+                mousex = mousex / Screen.width;
+            }
+            //Debug.Log("MOUSE: " + mousex/Screen.width + "          XPOS: " + Input.mousePosition.x + "     width: " + Screen.width);
+            carMove.x *= mousex;
+        }
+        else
         {
             carMove.x *= Input.GetAxis("Horizontal");
-
-        }
-        else //use mouse input
-        {
-            carMove.x *= mousex;
         }
 
         if (this.transform.localPosition.x + carMove.x > 5) //setting left and right boundaries
@@ -108,19 +117,16 @@ public class Car : MonoBehaviour
         {
             carMove.x = -5 - this.transform.localPosition.x;
         }
-        controller.Move(carMove);
 
-        if (Input.GetButton("Fire1") && speed > minSpeed) //ctrl
+        controller.Move(carMove); //actually move the car by the amounts specified in the carMove vector
+
+        if (Input.GetButton("Fire1") && speed > minSpeed) //Ctrl
         {
             speed--;
         }
         if (Input.GetButton("Fire2") && speed < maxSpeed) //Alt; not else if because if both ctrl and alt are pressed, it is assumed the user wants to leave speed as is
         {
             speed++;
-        }
-        if (Input.GetButton("Fire3")) //p to pause game
-        {
-            Invoke("PButtonPressed", 0.0f);
         }
     }
 
@@ -135,11 +141,8 @@ public class Car : MonoBehaviour
             tickSource.PlayOneShot(audio1, 0.2f);
             money++;
             uiManager.UpdateMoney(money);
-            if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Experiment")) //FIXME: temporary while experiment is separate
-            {
-                //other.transform.parent.gameObject.SetActive(false); //if the money prefab had a parent object (money holder)
-                other.transform.gameObject.SetActive(false);
-            }
+            //other.transform.parent.gameObject.SetActive(false); //if the money prefab had a parent object (money holder); now-deprecated way to remove collected money
+            //other.transform.gameObject.SetActive(false); //now-deprecated way to remove collected money
         }
     }
 
@@ -222,11 +225,6 @@ public class Car : MonoBehaviour
         }
         model.SetActive(true);
         collided = false;
-    }
-
-    private void PButtonPressed()
-    {
-        uiManager.OpenPause();
     }
 
     public void IncreaseSpeed() //called every 80 or so units whenever the car reaches the end of a section of track

@@ -46,7 +46,7 @@ public class ObstacleManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //FIXME: run in background (don't update every frame)?
+        //FIXME: consider running in background (as in don't update every frame)
         for (int i = 0; i < numObstacles; ++i)
         {
             if (obstacles[i].transform.localPosition.y < -5 || obstacles[i].transform.localPosition.z < car.transform.localPosition.z - 5) //if the barrel is in an irrelevant position then it needs to be respawned

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Track : MonoBehaviour
+public class Track : MonoBehaviour //THIS FILE IS DEPRECATED
 {
     public GameObject[] obstacles; //there are nine obstacle (barrel) prefabs hence an array
     public GameObject money; //there is only one money prefab
@@ -53,7 +53,7 @@ public class Track : MonoBehaviour
         }
     }
 
-    void LayoutMoney()  //spawn money //FIXME: money spawns too far off track and don't have money collide with barrels if that's not too much to ask
+    void LayoutMoney()  //spawn money
     {
         float minZP = 10f, randomZP;
         for (int i = 0; i < newMoney.Count; ++i)
