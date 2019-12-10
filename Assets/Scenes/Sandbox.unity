@@ -312,6 +312,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7749393044674690617, guid: 81a153918d750d24ca0cc299a2727453,
+        type: 3}
+      propertyPath: numObstacles.x
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 7749393044674690617, guid: 81a153918d750d24ca0cc299a2727453,
+        type: 3}
+      propertyPath: numObstacles.y
+      value: 3000
+      objectReference: {fileID: 0}
     - target: {fileID: 8432384062970123436, guid: 81a153918d750d24ca0cc299a2727453,
         type: 3}
       propertyPath: m_StaticEditorFlags
@@ -8155,6 +8165,8 @@ MonoBehaviour:
   ObjectiveInstruction: {fileID: 681648870}
   startDifficulty: {fileID: 1758973840}
   difficulty: {fileID: 830683630}
+  startSensitivity: {fileID: 0}
+  sensitivity: {fileID: 0}
   carModel: {fileID: 2119480850}
 --- !u!4 &1085214820
 Transform:

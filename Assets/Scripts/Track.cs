@@ -7,7 +7,7 @@ public class Track : MonoBehaviour
 {
     public GameObject[] obstacles; //there are nine obstacle (barrel) prefabs hence an array
     public GameObject money; //there is only one money prefab
-    public Vector2 numObstacles, amountOfMoney; //can be modified within Unity; note that a numObstacles.y > trackLength / diameter of barrel (which is approximately 0.8f) creates the chance for barrels to be too close to each other (such that they merge)
+    public Vector2 numObstacles, amountOfMoney; //can be modified within Unity; note that a numObstacles.y > trackLength / diameter of barrel (which is ~0.8) creates the chance for barrels to be too close to each other (such that they merge)
     private UIManager uiManager;
     
     [HideInInspector]
@@ -79,7 +79,7 @@ public class Track : MonoBehaviour
     {
         if (other.CompareTag("Car")) //there is a box collider at the end of each section of track, that when it detects a collision with the car, it moves the section of track just completed to after the other piece of track and reinitializes the obstacles and money on it
         {
-            if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Tutorial") || this.gameObject.name == "Track 3") //Track 3 is used to cover up a graphical bug that occurs with occlusion culling and the car reaching the end of the second track; in order for this to work properly though, occlusion culling must be baked with Track 3 turned off in the editor (and after it's baked, Track 3 is set active)
+            if (this.gameObject.name == "Occlusion Coverup Track" || SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Tutorial")) //Occlusion Coverup Track is used to cover up a graphical bug that occurs with occlusion culling and the car reaching the end of the second track; in order for this to work properly though, occlusion culling must be baked with Occlusion Coverup Track turned off in the editor (and after it's baked, Occlusion Coverup Track is set active)
             {
                 this.gameObject.SetActive(false);
                 if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Tutorial"))
