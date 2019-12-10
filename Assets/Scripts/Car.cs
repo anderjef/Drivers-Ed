@@ -94,7 +94,7 @@ public class Car : MonoBehaviour
             }
             else if (mousex < (Screen.width * 0.4)) //left mouse movement
             {
-                //mousex = Screen.width - mousex;
+                mousex = Screen.width - mousex;
                 mousex = mousex / Screen.width * -1;
             }
             else if (mousex > (Screen.width * 0.6)) //right mouse movement

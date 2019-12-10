@@ -1671,7 +1671,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Game
+  m_Text: Drivers Ed
 --- !u!222 &525558302
 CanvasRenderer:
   m_ObjectHideFlags: 0
